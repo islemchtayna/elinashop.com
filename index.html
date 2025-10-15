@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="ar">
+<link rel="stylesheet" href="/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+<head>
+  <meta charset="UTF-8">
+  <title>نموذج الطلب</title>
+</head>
+<body>
+
+
+<header class="header">
+      <div class="head" id="nav">
+        <div class="container">
+          <div id="home" class="logo"><a href="#"><img src="/img/logo.png" alt="coffe logo"></a></div>
+         <div class="text-head">خلي ستايلك بيتكلم عنك 💖</div>
+        </div>
+      </div>
+</header>
+
+
+<section class="title">
+  <div class="container">
+      <h1>🔥🔥 عرض مايتراطاش 🔥🔥 يجامة شتوية دافئة راااااائعة 😍😍 إختر  قطعتين وأحصل على  واحدة إضافية هدية مجانا من عندنا</h1>
+
+  </div>
+</section>
+
+<section class="product">
+
+<div class="container">
+    <!-- صورة المنتج -->
+    <!-- القسم الخاص بالصور -->
+
+    <div class="slider">
+        <button class="prev" onclick="changeSlide(-1)">&#10094;</button>
+      
+        <div class="slides">
+          <img src="/img/clothe1.jpg" alt="صورة 1" class="slide active">
+          <img src="/img/clothe2.png" alt="صورة 2" class="slide">
+          <img src="/img/clothe3.png" alt="صورة 3" class="slide">
+        </div>
+      
+        <button class="next" onclick="changeSlide(1)">&#10095;</button>
+      </div>
+
+  
+
+    <!-- نموذج الطلب -->
+    <div class="form-container">
+      <h2>نموذج الطلب</h2>
+
+      <!-- الاسم والرقم -->
+      <div class="form-row">
+        <div class="form-group">
+          <label>الاسم الكامل:</label>
+          <input type="text" id="name" placeholder="أدخل اسمك الكامل" oninput="validateName()">
+          <div class="error" id="name-error"></div>
+        </div>
+
+        <div class="form-group">
+          <label>رقم الهاتف:</label>
+          <input type="text" id="phone" maxlength="10" placeholder="مثال: 0567891234" oninput="validatePhone()">
+          <div class="error" id="phone-error"></div>
+        </div>
+      </div>
+
+      <!-- الولاية والبلدية -->
+      <div class="form-row">
+        <div class="form-group">
+          <label>الولاية:</label>
+          <select id="wilaya" onchange="updateCommunesAndDelivery(); validateWilaya();">
+            <option value="">اختر الولاية</option>
+            <option value="الجزائر">الجزائر</option>
+            <option value="وهران">وهران</option>
+            <option value="سطيف">سطيف</option>
+          </select>
+          <div class="error" id="wilaya-error"></div>
+        </div>
+
+        <div class="form-group">
+          <label>البلدية:</label>
+          <select id="commune" onchange="validateCommune()">
+            <option value="">اختر البلدية</option>
+          </select>
+          <div class="error" id="commune-error"></div>
+        </div>
+      </div>
+
+      <!-- المقاس -->
+      <div class="form-group">
+        <label>المقاس:</label>
+        <select id="size" onchange="validateSize()">
+          <option value="">اختر المقاس</option>
+          <option value="S">S</option>
+          <option value="M">M</option>
+          <option value="L">L</option>
+          <option value="XL">XL</option>
+        </select>
+        <div class="error" id="size-error"></div>
+      </div>
+
+      <!-- سعر التوصيل -->
+      <div class="form-group">
+        <label>سعر التوصيل:</label>
+        <input type="text" id="delivery" readonly placeholder="يظهر تلقائياً بعد اختيار الولاية">
+      </div>
+
+      <button onclick="validateForm()">تأكيد الطلب</button>
+
+      <p id="success-message"></p>
+    </div>
+  </div>
+</section>
+
+
+  
+
+<script src="/form.js"></script>
+
+</body>
+</html>

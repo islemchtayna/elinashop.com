@@ -22,13 +22,14 @@
 
 <section class="title">
   <div class="container">
-      <h1>🔥🔥 عرض مايتراطاش 🔥🔥 يجامة شتوية دافئة راااااائعة 😍😍 إختر  قطعتين وأحصل على  واحدة إضافية هدية مجانا من عندنا</h1>
-
+      <h1>🔥🔥 عرض مايتراطاش 🔥🔥<br> فوندروب راااااائعة 😍😍 إختر  قطعتين وأحصلي على قطعة هدية مجانا من عندنا</h1>
+      <p>مقاسات ستوندار ألوان وأشكال 🎁🎁</p>
+      <h2>1300د.ج</h2>
   </div>
 </section>
 
 <section class="product">
-
+  
 <div class="container">
     <!-- صورة المنتج -->
     <!-- القسم الخاص بالصور -->
@@ -38,8 +39,12 @@
       
         <div class="slides">
           <img src="/img/clothe1.jpg" alt="صورة 1" class="slide active">
-          <img src="/img/clothe2.png" alt="صورة 2" class="slide">
-          <img src="/img/clothe3.png" alt="صورة 3" class="slide">
+          <img src="/img/clothe2.jpg" alt="صورة 2" class="slide">
+          <img src="/img/clothe3.jpg" alt="صورة 3" class="slide">
+          <img src="/img/clothe4.jpg" alt="صورة 3" class="slide">
+          <img src="/img/clothe5.jpg" alt="صورة 3" class="slide">
+          <img src="/img/clothe6.jpg" alt="صورة 3" class="slide">
+          <img src="/img/clothe7.jpg" alt="صورة 3" class="slide">
         </div>
       
         <button class="next" onclick="changeSlide(1)">&#10095;</button>
@@ -90,21 +95,43 @@
 
       <!-- المقاس -->
       <div class="form-group">
-        <label>المقاس:</label>
-        <select id="size" onchange="validateSize()">
-          <option value="">اختر المقاس</option>
-          <option value="S">S</option>
-          <option value="M">M</option>
-          <option value="L">L</option>
-          <option value="XL">XL</option>
-        </select>
-        <div class="error" id="size-error"></div>
+      <label class="offer">اختر العرض:</label>
+  <div class="offers-container">
+    <div class="offer-card" data-offer="1" onclick="selectOffer(1)">
+      <h4>عرض فردي</h4>
+      <p>قطعة واحدة</p>
+      <span>2500 دج</span>
+    </div>
+
+    <div class="offer-card" data-offer="2" onclick="selectOffer(2)">
+      <h4>عرض مزدوج</h4>
+      <p>قطعتان</p>
+      <span>4500 دج</span>
+    </div>
+
+    <div class="offer-card" data-offer="3" onclick="selectOffer(3)">
+      <h4>عرض ثلاثي</h4>
+      <p>3 قطع</p>
+      <span>6000 دج</span>
+    </div>
+  </div>
       </div>
 
       <!-- سعر التوصيل -->
-      <div class="form-group">
-        <label>سعر التوصيل:</label>
-        <input type="text" id="delivery" readonly placeholder="يظهر تلقائياً بعد اختيار الولاية">
+      <div class="prices">
+        <div class="form-group">
+      <label>💰 سعر المنتج: <span id="product-price" class="product-price">0</span></label>
+      </div>
+
+       <div class="form-group">
+       <label>🚚 سعر التوصيل:</label>
+      <span id="delivery" class="delivery-price">0</span>
+       </div>
+
+        <div class="form-group">
+       <label>🧾 السعر الإجمالي:</label>
+        <span id="total-price" class="total-price">0</span>
+      </div>
       </div>
 
       <button onclick="validateForm()">تأكيد الطلب</button>

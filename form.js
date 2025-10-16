@@ -49,26 +49,171 @@ const wilayaData = {
     }
   };
 
-  function updateCommunesAndDelivery() {
-    const wilaya = document.getElementById("wilaya").value;
-    const communeSelect = document.getElementById("commune");
-    const deliveryInput = document.getElementById("delivery");
 
-    communeSelect.innerHTML = '<option value="">اختر البلدية</option>';
+  // 💰 أسعار العروض
+const offers = {
+  "1": 2500,
+  "2": 4500,
+  "3": 6000
+};
 
-    if (wilaya && wilayaData[wilaya]) {
-      wilayaData[wilaya].communes.forEach(commune => {
-        const option = document.createElement("option");
-        option.value = commune;
-        option.textContent = commune;
-        communeSelect.appendChild(option);
-      });
+let selectedOffer = null;
+let selectedProductPrice = 0;
 
-      deliveryInput.value = wilayaData[wilaya].delivery + " دج";
+
+// function updateProductPrice() {
+//   const offer = document.getElementById("offer").value;
+//   const productPriceSpan = document.getElementById("product-price");
+//   const totalSpan = document.getElementById("total");
+//   const deliverySpan = document.getElementById("delivery");
+
+//   if (offer && offers[offer]) {
+//     selectedProductPrice = offers[offer];
+//     productPriceSpan.textContent = selectedProductPrice + " دج";
+//   } else {
+//     selectedProductPrice = 0;
+//     productPriceSpan.textContent = "—";
+//   }
+
+//   // تحديث الإجمالي إذا كانت الولاية مختارة
+//   const wilaya = document.getElementById("wilaya").value;
+//   if (wilaya && wilayaData[wilaya]) {
+//     const deliveryPrice = wilayaData[wilaya].delivery;
+//     deliverySpan.textContent = deliveryPrice + " دج";
+//     if (selectedProductPrice) {
+//       totalSpan.textContent = (selectedProductPrice + deliveryPrice) + " دج";
+//     } else {
+//       totalSpan.textContent = "—";
+//     }
+//   } else {
+//     totalSpan.textContent = "—";
+//   }
+// }
+
+
+
+// عند اختيار عرض
+function selectOffer(offerId) {
+  // إزالة التفعيل عن كل البطاقات
+  document.querySelectorAll(".offer-card").forEach(card => {
+    card.classList.remove("active");
+  });
+
+  // تفعيل البطاقة المحددة
+  const selectedCard = document.querySelector(`.offer-card[data-offer="${offerId}"]`);
+  selectedCard.classList.add("active");
+
+  // تحديث السعر
+  selectedOffer = offerId;
+  selectedProductPrice = offers[offerId];
+  document.getElementById("product-price").textContent = selectedProductPrice + " دج";
+
+  updateTotal();
+}
+
+// تحديث الإجمالي عند اختيار العرض أو الولاية
+function updateTotal() {
+  const wilaya = document.getElementById("wilaya").value;
+  const deliverySpan = document.getElementById("delivery");
+  const totalSpan = document.getElementById("total-price");
+
+  if (wilaya && wilayaData[wilaya]) {
+    const deliveryPrice = wilayaData[wilaya].delivery;
+    deliverySpan.textContent = deliveryPrice + " دج";
+
+    if (selectedProductPrice) {
+      totalSpan.textContent = (selectedProductPrice + deliveryPrice) + " دج";
     } else {
-      deliveryInput.value = "";
+      totalSpan.textContent = "—";
     }
+  } else {
+    deliverySpan.textContent = "—";
+    totalSpan.textContent = "—";
   }
+}
+
+
+
+// function updateCommunesAndDelivery() {
+//   const wilaya = document.getElementById("wilaya").value;
+//   const communeSelect = document.getElementById("commune");
+//   const deliverySpan = document.getElementById("delivery");
+//   const totalSpan = document.getElementById("total");
+
+//   communeSelect.innerHTML = '<option value="">اختر البلدية</option>';
+
+//   if (wilaya && wilayaData[wilaya]) {
+//     // تعبئة البلديات
+//     wilayaData[wilaya].communes.forEach(commune => {
+//       const option = document.createElement("option");
+//       option.value = commune;
+//       option.textContent = commune;
+//       communeSelect.appendChild(option);
+//     });
+
+//     // سعر التوصيل
+//     const deliveryPrice = wilayaData[wilaya].delivery;
+//     deliverySpan.textContent = deliveryPrice + " دج";
+
+//     // السعر الإجمالي = المنتج + التوصيل
+//     const total = productPrice + deliveryPrice;
+//     totalSpan.textContent = total + " دج";
+//   } else {
+//     deliverySpan.textContent = "—";
+//     totalSpan.textContent = "—";
+//   }
+// }
+
+
+// function updateCommunesAndDelivery() {
+//   const wilaya = document.getElementById("wilaya").value;
+//   const communeSelect = document.getElementById("commune");
+//   const deliverySpan = document.getElementById("delivery");
+//   const totalSpan = document.getElementById("total");
+
+//   communeSelect.innerHTML = '<option value="">اختر البلدية</option>';
+
+//   if (wilaya && wilayaData[wilaya]) {
+//     // تعبئة البلديات
+//     wilayaData[wilaya].communes.forEach(commune => {
+//       const option = document.createElement("option");
+//       option.value = commune;
+//       option.textContent = commune;
+//       communeSelect.appendChild(option);
+//     });
+
+//     // سعر التوصيل
+//     const deliveryPrice = wilayaData[wilaya].delivery;
+//     deliverySpan.textContent = deliveryPrice + " دج";
+
+//     // السعر الإجمالي إذا تم اختيار عرض
+//     if (selectedProductPrice) {
+//       totalSpan.textContent = (selectedProductPrice + deliveryPrice) + " دج";
+//     } else {
+//       totalSpan.textContent = "—";
+//     }
+//   } else {
+//     deliverySpan.textContent = "—";
+//     totalSpan.textContent = "—";
+//   }
+// }
+
+function updateCommunesAndDelivery() {
+  const wilaya = document.getElementById("wilaya").value;
+  const communeSelect = document.getElementById("commune");
+  communeSelect.innerHTML = '<option value="">اختر البلدية</option>';
+
+  if (wilaya && wilayaData[wilaya]) {
+    wilayaData[wilaya].communes.forEach(commune => {
+      const option = document.createElement("option");
+      option.value = commune;
+      option.textContent = commune;
+      communeSelect.appendChild(option);
+    });
+  }
+
+  updateTotal(); // تحديث الأسعار بعد تغيير الولاية
+}
 
   function validateName() {
     const name = document.getElementById("name").value.trim();
@@ -91,24 +236,48 @@ const wilayaData = {
     document.getElementById("commune-error").textContent = commune ? "" : "الرجاء اختيار البلدية.";
   }
 
-  function validateSize() {
-    const size = document.getElementById("size").value;
-    document.getElementById("size-error").textContent = size ? "" : "الرجاء اختيار المقاس.";
-  }
+  // function validateSize() {
+  //   const size = document.getElementById("size").value;
+  //   document.getElementById("size-error").textContent = size ? "" : "الرجاء اختيار اللون.";
+  // }
 
   function validateForm() {
     validateName();
     validatePhone();
     validateWilaya();
     validateCommune();
-    validateSize();
+    // validateSize();
 
     const errors = document.querySelectorAll(".error");
     const hasError = Array.from(errors).some(el => el.textContent !== "");
 
-    if (!hasError) {
-      document.getElementById("success-message").textContent = "✅ تم إرسال الطلب بنجاح!";
-    } else {
-      document.getElementById("success-message").textContent = "";
-    }
+    // if (!hasError) {
+    //   document.getElementById("success-message").textContent = "✅ تم إرسال الطلب بنجاح!";
+    // } else {
+    //   document.getElementById("success-message").textContent = "";
+    // }
+if (!hasError) {
+  document.getElementById("success-message").textContent = "✅ تم إرسال الطلب بنجاح!";
+  
+  setTimeout(() => {
+    // مسح جميع الحقول
+    document.querySelectorAll("input, select").forEach(el => el.value = "");
+    
+    // تصفير الأسعار
+    document.getElementById("delivery").textContent = "—";
+    document.getElementById("product-price").textContent = "—";
+    document.getElementById("total-price").textContent = "—";
+    
+    // إزالة التفعيل من بطاقات العروض
+    document.querySelectorAll(".offer-card").forEach(card => {
+      card.classList.remove("active");
+    });
+
+    // إخفاء الرسالة
+    document.getElementById("success-message").textContent = "";
+
+  }, 2000);
+}
+
+
   }

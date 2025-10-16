@@ -93,8 +93,8 @@
         </div>
       </div>
 
-      <!-- المقاس -->
-      <div class="form-group">
+      <!-- العرض -->
+      <!-- <div class="form-group">
       <label class="offer">اختر العرض:</label>
   <div class="offers-container">
     <div class="offer-card" data-offer="1" onclick="selectOffer(1)">
@@ -115,7 +115,41 @@
       <span>6000 دج</span>
     </div>
   </div>
+      </div> -->
+<div class="form-group">
+  <label class="offer">اختر العرض:</label>
+  <div class="offers-container">
+    
+    <label class="offer-card" data-offer="1">
+      <input type="checkbox" name="offer" value="1" onchange="handleOfferSelection(this)">
+      <div class="pack">
+        <h4></h4>
+        <p>اختر قطعة واحدة ب 1300 دج</p>
       </div>
+    </label>
+
+    <label class="offer-card" data-offer="2">
+      <input type="checkbox" name="offer" value="2" onchange="handleOfferSelection(this)">
+      <div class="pack">
+        <h4></h4>
+        <p>اختر قطعتان واحدة ب 2600 دج و احصل على هدية مجانا</p>
+       
+        
+      </div>
+    </label>
+
+    <label class="offer-card" data-offer="3">
+      <input type="checkbox" name="offer" value="3" onchange="handleOfferSelection(this)">
+      <div class="pack">
+        <h4></h4>
+        <p>اختر 3 قطع ب 3500 دج و احصل على هدية مجانا</p>
+        
+        
+      </div>
+    </label>
+
+  </div>
+</div>
 
       <!-- سعر التوصيل -->
       <div class="prices">

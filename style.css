@@ -191,7 +191,7 @@ display: flex;
     padding: 25px 12px;
     border: 1px solid #ccc;
     border-radius: 8px;
-    font-size: 3rem;
+    font-size: 4.5rem;
     transition: border 0.3s ease;
     box-sizing: border-box;
         margin-top: 25px;
@@ -311,12 +311,12 @@ position: relative;
 }
 
 .offer-card:hover {
-  border-color: #3498db;
+  border-color: #27ae60;
   transform: scale(1.02);
 }
 
 .offer-card.active {
-  border-color: #3498db;
+  border-color: #27ae60;
   background-color: #ecf5ff;
   box-shadow: 0 0 10px rgba(52, 152, 219, 0.3);
 }
@@ -416,13 +416,15 @@ position: relative;
 .form-group {
   min-width: 100%;
 }
+.form-group .offer{
 
+}
 .product-image {
   max-height: 300px;
 }
 
 .form-container{
-  font-size: 4rem;
+  font-size: 5rem;
   width: 100%;
 }
 
@@ -450,43 +452,137 @@ position: relative;
   .prev { left: 10px; }
   .next { right: 10px; }
   
-
 .offers-container {
   display: flex;
-  flex-direction: column; /* عرض طولي */
-  gap: 10px;
-          margin-top: 15px;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 50px;
 }
 
 .offer-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   border: 2px solid #ccc;
-  border-radius: 10px;
-  padding: 10px;
+  border-radius: 14px;
+  padding: 14px 16px;
+  background: #fff;
+  transition: all 0.3s ease;
   cursor: pointer;
-  transition: 0.3s;
-  background-color: #f9f9f9;
-}
-
-.offer-card:hover {
-  border-color: #3498db;
-  transform: scale(1.02);
+  position: relative;
+  height: 190px;
+  margin-top: 50px;
 }
 
 .offer-card.active {
-  border-color: #3498db;
-  background-color: #ecf5ff;
-  box-shadow: 0 0 10px rgba(52, 152, 219, 0.3);
+  border-color: #4caf50;
+  background: #eaf3ff;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
 }
 
-.offer-card h4 {
-  margin: 5px 0;
-  color: #2c3e50;
+/* ✅ تصميم دائري للـ checkbox */
+.offer-card input[type="checkbox"] {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 50px;
+  height: 50px;
+  border: 2px solid #000000;
+  border-radius: 50%;
+  outline: none;
+  cursor: pointer;
+  position: relative;
+  transition: all 0.3s ease;
+  background-color: #fff;
+}
+
+/* تأثير عند التحويم */
+.offer-card input[type="checkbox"]:hover {
+  box-shadow: 0 0 4px rgba(0, 0, 0, 0.4);
+}
+
+/* ✅ عند التحديد */
+.offer-card input[type="checkbox"]:checked {
+  background-color: #4caf50;
+  border-color: #000000;
+}
+
+/* ✔️ علامة الصح */
+.offer-card input[type="checkbox"]:checked::after {
+  content: "✔";
+        position: absolute;
+        color: #000000;
+        font-size: 25px;
+        top: 10px;
+        left: 10px;
+}
+
+/* محتوى النص داخل البطاقة */
+.offer-card .pack {
+  flex-grow: 1;
+  margin-right: 10px;
+}
+.offer-card .pack h4::before{
+  content: " العرض رقم 1🎁";
+        background-color: black;
+        color: white;
+        border-radius: 50px;
+        position: absolute;
+        width: 40%;
+        height: 50%;
+        font-size: 3.5rem;
+        text-align: center;
+        left: 20px;
+        top: -40px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+}
+
+.offer-card:nth-child(2) .pack h4::before{
+  content: " العرض رقم 2🎁";
+        background-color: black;
+        color: white;
+        border-radius: 50px;
+        position: absolute;
+        width: 40%;
+        height: 50%;
+        font-size: 3.5rem;
+        text-align: center;
+        left: 20px;
+        top: -40px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+}
+
+.offer-card:nth-child(3) .pack h4::before{
+  content: " العرض رقم 3🎁";
+        background-color: black;
+        color: white;
+        border-radius: 50px;
+        position: absolute;
+        width: 40%;
+        height: 50%;
+        font-size: 3.5rem;
+        text-align: center;
+        left: 20px;
+        top: -40px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+}
+.offer-card p {
+  margin: 3px 0;
+  color: #555;
+  font-size: 3.5rem;
 }
 
 .offer-card span {
   font-weight: bold;
-  color: #27ae60;
+  color: #007bff;
+  font-size: 15px;
 }
+
 
 .product-price {
   font-weight: bold;

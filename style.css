@@ -1,6 +1,6 @@
 :root {
   --bg-color: #151418;
-  --bg-sub-color: #15c79a;
+  --bg-sub-color: #f5f7fa;
 
   --main-text-color: #ffffff;
   --main-text-color-lighter: #0000008c;
@@ -19,21 +19,20 @@ html {
 }
 
 body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background-color: #f5f7fa;
-    direction: rtl;
-    margin: 0;
-    padding: 0;
-    /* display: flex;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f5f7fa;
+  direction: rtl;
+  margin: 0;
+  padding: 0;
+  /* display: flex;
     justify-content: center;
     align-items: center; */
-    min-height: 100vh;
-    
-  }
+  min-height: 100vh;
+}
 
 .container {
-  padding-left: 5px;
-  padding-right: 5px;
+  padding-left: 15px;
+  padding-right: 15px;
   margin-left: auto;
   margin-right: auto;
   /* overflow: hidden; */
@@ -60,15 +59,15 @@ body {
 
 header {
   height: 70px;
-   border-bottom: 1px solid var(--main-text-color-lighter);
+  border-bottom: 1px solid var(--main-text-color-lighter);
 }
 
 .stiky-nav {
   position: fixed;
-    width: 100%;
-    background-color: #eee;
-    border-bottom: 1px solid var(--main-color-white);
-    z-index: 20;
+  width: 100%;
+  background-color: #eee;
+  border-bottom: 1px solid var(--main-color-white);
+  z-index: 20;
 }
 
 .head {
@@ -78,42 +77,41 @@ header {
 }
 
 .head .container {
-  display: flex
-;
-    justify-content: space-between;
-    flex-direction: row-reverse;
-    align-items: center;
-    width: 90%;
+  display: flex;
+  justify-content: space-between;
+  flex-direction: row-reverse;
+  align-items: center;
+  width: 100%;
+
 }
 .head .container .background {
   display: none;
 }
-.head .container .logo{
-  width: 150px;
+.head .container .logo {
+  width: 70px;
 }
 .container .logo img {
   width: 100%;
   margin-top: 10px;
 }
-.head .container .text-head{
-      font-size: 15px;
-    color: black;
-    font-weight: bolder;
+.head .container .text-head {
+  font-size: 15px;
+  color: black;
+  font-weight: bolder;
 }
 
-.title .container h1{
-  display: flex
-;
-    justify-content: center;
-    margin-top: 10%;
-    margin-bottom: 10%;
-    padding: 10px;
+.title .container h1 {
+  display: flex;
+  justify-content: center;
+  margin-top: 5%;
+  margin-bottom: 5%;
+  padding: 10px;
 }
-.title .container p{
-font-size: 4rem;
-    font-weight: 500;
-    color: #495057;
-    margin-bottom: 10%;
+.title .container p {
+  font-size: 1.8rem;
+  font-weight: 500;
+  color: #495057;
+  margin-bottom: 5%;
 }
 /* start landing ------------------------> */
 
@@ -143,158 +141,182 @@ font-size: 4rem;
 .up.show {
   right: 20px;
 }
-.up.show i{
+.up.show i {
   font-size: 2rem;
 }
 
-.product .container{
-display: flex;
-
+.product .container {
+  display: flex;
 }
 
-  .form-container {
-       flex: 1;
-    padding: 25px 30px;
-    min-width: 300px;
-    border: 3px solid black;
-    width: 90%;
-    border-radius: 10px;
-  }
+.form-container {
+  flex: 1;
+  padding: 10px 10px;
+width: 100%;
+  border: 3px solid black;
+  width: 100%;
+  border-radius: 10px;
+  position: relative;
+}
 
-  h2 {
-    margin-bottom: 20px;
+.form-container h2 {
+ margin-bottom: 20px;
     text-align: center;
     color: #333;
-  }
-
-  .form-row {
-    display: flex;
-    gap: 10px;
-    flex-wrap: wrap;
-  }
-
-  .form-group {
-    flex: 1;
-    min-width: 48%;
-    margin-bottom: 12px;
-  }
-
-  label {
-    font-weight: bold;
-    margin-bottom: 5px;
-   
-    color: #444;
-  }
-
-  input, select {
-    width: 100%;
-    padding: 25px 12px;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    font-size: 4.5rem;
-    transition: border 0.3s ease;
-    box-sizing: border-box;
-        margin-top: 25px;
-  }
-
-  input:focus, select:focus {
-    border-color: #4CAF50;
-    outline: none;
-  }
-
-  .error {
-    color: #e74c3c;
-    font-size: 13px;
-    margin-top: 3px;
-  }
-
-  #success-message {
-    color: #27ae60;
-    font-weight: bold;
-    text-align: center;
-    margin-top: 20px;
-  }
-
-  button {
-    width: 100%;
-    padding: 12px;
-    background-color: #4CAF50;
-    color: white;
-    font-size: 16px;
-    border: none;
-    border-radius: 10px;
-    margin-top: 20px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-  }
-
-  button:hover {
-    background-color: #45a049;
-  }
-
-
-    
-  .slider {
-position: relative;
-    width: 100%;
-    max-width: 400px;
-    background-color: #f2f2f2;
-    overflow: hidden;
-    border-radius: 12px;
-    margin: auto;
-    border: 3px solid black;
-    margin-bottom: 10%;
-}
-  
- 
-  .slides {
-    width: 100%;
-    height: 100%;
-  }
-  
-  .slide {
-    width: 100%;
-    height: auto;
-    display: none;
-    object-fit: contain;
-    transition: opacity 0.5s ease-in-out;
-  }
-  
-  .slide.active {
-    display: block;
-    animation: fadeIn 0.6s ease-in-out;
-  }
-  
-  @keyframes fadeIn {
-    from { opacity: 0; transform: translateX(0.95); }
-    to { opacity: 1; transform: scale(1); }
-  }
-  
-  .slider button {
     position: absolute;
-    width: 100px;
-    height: 100px;
-    direction: ltr;
-    bottom: -20px;
-    transform: translateY(-50%);
-    background-color: rgba(0, 0, 0, 0.4);
-    color: white;
-    border: none;
-    padding: 10px 15px;
-    cursor: pointer;
-    font-size: 20px;
-    z-index: 2;
-    transition: background-color 0.3s;
+    top: -35px;
+    width: 150px;
+    height: 40px;
+    background-color: var(--bg-sub-color);
+    color: var(--bg-color);
+
+    display: flex
+;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+}
+
+.form-row {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.form-group {
+  flex: 1;
+  min-width: 48%;
+  margin-bottom: 12px;
+
+}
+.form-group .labelmg{
+    display: inline-block;
+    margin-top: 40px;
+}
+label {
+  font-weight: bold;
+  margin-bottom: 5px;
+font-size: 1.8rem;
+  color: #444;
+}
+
+input,
+select {
+  width: 100%;
+  padding: 15px 12px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 2rem;
+  transition: border 0.3s ease;
+  box-sizing: border-box;
+  margin-top: 15px;
+}
+
+input:focus,
+select:focus {
+  border-color: #4caf50;
+  outline: none;
+}
+
+.error {
+  color: #e74c3c;
+  font-size: 13px;
+  margin-top: 3px;
+}
+
+#success-message {
+  color: #27ae60;
+  font-weight: bold;
+  text-align: center;
+  margin-top: 20px;
+}
+
+button {
+  width: 100%;
+  padding: 12px;
+  background-color: #4caf50;
+  color: white;
+  font-size: 16px;
+  border: none;
+  border-radius: 10px;
+  margin-top: 20px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #45a049;
+}
+
+.slider {
+  position: relative;
+  width: 100%;
+  max-width: 400px;
+  background-color: #f2f2f2;
+  overflow: hidden;
+  border-radius: 12px;
+  margin: auto;
+  border: 3px solid black;
+  margin-bottom: 10%;
+}
+
+.slides {
+  width: 100%;
+  height: 100%;
+}
+
+.slide {
+  width: 100%;
+  height: auto;
+  display: none;
+  object-fit: contain;
+  transition: opacity 0.5s ease-in-out;
+}
+
+.slide.active {
+  display: block;
+  animation: fadeIn 0.6s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateX(0.95);
   }
-  
-  .slider button:hover {
-    background-color: rgba(0,0,0,0.7);
+  to {
+    opacity: 1;
+    transform: scale(1);
   }
-  
-  .prev { left: 10px; }
-  .next { right: 10px; }
-  
-  
+}
+
+.slider button {
+  position: absolute;
+  width: 100px;
+  height: 100px;
+  direction: ltr;
+  bottom: -20px;
+  transform: translateY(-50%);
+  background-color: rgba(0, 0, 0, 0.4);
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  cursor: pointer;
+  font-size: 20px;
+  z-index: 2;
+  transition: background-color 0.3s;
+}
+
+.slider button:hover {
+  background-color: rgba(0, 0, 0, 0.7);
+}
+
+.prev {
+  left: 10px;
+}
+.next {
+  right: 10px;
+}
+
 .offers-container {
   display: flex;
   flex-direction: column; /* عرض طولي */
@@ -331,8 +353,6 @@ position: relative;
   color: #27ae60;
 }
 
-
-
 .product-price {
   font-weight: bold;
   color: #2c3e50;
@@ -349,266 +369,244 @@ position: relative;
   font-size: 1.1em;
 }
 
-.prices{
+.prices {
   margin-top: 50px;
-    margin-bottom: 50px;
-    border: 1px solid black;
-    padding: 20px;
+  margin-bottom: 50px;
+  border: 1px solid black;
+  padding: 20px;
 }
 
+/* responsive */
 
-  /* responsive */
+/* ------------------------------ */
 
-  @media (min-width: 768px) {
-   header {
-    height: 200px;
-    }
- .head{
-  height: 200px;
-  
- }
+/* =========================
+   📱 Responsive Design
+   For screens smaller than 768px
+========================= */
+@media (max-width: 768px) {
+  /* ===== Header ===== */
+  header,
+  .head {
+    height: 70px;
+  }
+
   .head .container .logo {
-  width: 200px;
-}
-.head .container .text-head{
-  font-size: 3.5rem;
-}
-.title .container h1{
-  font-size: 4.5rem;
-}
-.title .container h2{
-   font-size: 5rem;
-   text-align: right;
-   margin-bottom: 10%;
-   position: relative;
-    }
+    /* width: 70px; */
+  }
 
-.title .container h2::before{
-  content: "عرض خاص 🎁";
+  .head .container .text-head {
+  }
+
+  /* ===== Title Section ===== */
+  .title .container h1 {
+  }
+
+  .title .container h2 {
+    text-align: right;
+    margin-bottom: 10%;
+    position: relative;
+    font-size: 2.5rem;
+  }
+
+  .title .container h2::before {
+    content: "عرض خاص 🎁";
     position: absolute;
-    width: 250px;
-    right: 200px;
-    height: 80px;
-    text-align: start;
+    width: 120px;
+    right: 110px;
+    top: 0px;
+    height: 40px;
     border-radius: 50px;
     background-color: black;
-    font-size: 3rem;
+    font-size: 1.5rem;
     color: white;
     display: flex;
     align-items: center;
     justify-content: center;
-}
+  }
 
-.product {
-   display: flex;
-}
-.container {
+  /* ===== Product Section ===== */
+  .product {
+    display: flex;
+  }
+
+  .container {
     flex-direction: column;
     align-items: center;
-}
-.product .container .slider{
+  }
+
+  .product .container .slider {
     max-width: 100%;
-}
-.form-row {
-  flex-direction: column;
-}
+  }
 
-.form-group {
-  min-width: 100%;
-}
-.form-group .offer{
+  .product-image {
+    max-height: 300px;
+  }
 
-}
-.product-image {
-  max-height: 300px;
-}
+  /* ===== Form ===== */
+  .form-row {
+    flex-direction: column;
+  }
 
-.form-container{
-  font-size: 5rem;
-  width: 100%;
-}
+  .form-group {
+    min-width: 100%;
+  }
+ .form-group .offer{
+  font-size: 2rem;
+ }
+  .form-container {
+   
 
-.slider button {
+  }
+
+  /* ===== Slider Buttons ===== */
+  .slider button {
     position: absolute;
-    width: 100px;
-    height: 100px;
-    direction: ltr;
+    width: 70px;
+    height: 80px;
     bottom: -20px;
     transform: translateY(-50%);
     background-color: rgba(0, 0, 0, 0.4);
     color: white;
     border: none;
-    padding: 10px 15px;
     cursor: pointer;
     font-size: 20px;
     z-index: 2;
     transition: background-color 0.3s;
   }
-  
+
   .slider button:hover {
-    background-color: rgba(0,0,0,0.7);
+    background-color: rgba(0, 0, 0, 0.7);
   }
-  
-  .prev { left: 10px; }
-  .next { right: 10px; }
-  
-.offers-container {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  margin-top: 50px;
-}
 
-.offer-card {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  border: 2px solid #ccc;
-  border-radius: 14px;
-  padding: 14px 16px;
-  background: #fff;
-  transition: all 0.3s ease;
-  cursor: pointer;
-  position: relative;
-  height: 190px;
-  margin-top: 50px;
-}
+  .prev {
+    left: 10px;
+  }
+  .next {
+    right: 10px;
+  }
 
-.offer-card.active {
-  border-color: #4caf50;
-  background: #eaf3ff;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
-}
+  /* ===== Offers Section ===== */
+  .offers-container {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 10px;
+  }
 
-/* ✅ تصميم دائري للـ checkbox */
-.offer-card input[type="checkbox"] {
-  appearance: none;
-  -webkit-appearance: none;
-  width: 50px;
-  height: 50px;
-  border: 2px solid #000000;
-  border-radius: 50%;
-  outline: none;
-  cursor: pointer;
-  position: relative;
-  transition: all 0.3s ease;
-  background-color: #fff;
-}
+  .offer-card {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border: 2px solid #ccc;
+    border-radius: 14px;
+    padding: 10px 10px;
+    background: #fff;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    position: relative;
+    height: 100px;
+    margin-top: 5px;
+  }
 
-/* تأثير عند التحويم */
-.offer-card input[type="checkbox"]:hover {
-  box-shadow: 0 0 4px rgba(0, 0, 0, 0.4);
-}
+  .offer-card.active {
+    border-color: #4caf50;
+    background: #eaf3ff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
+  }
 
-/* ✅ عند التحديد */
-.offer-card input[type="checkbox"]:checked {
-  background-color: #4caf50;
-  border-color: #000000;
-}
+  /* ===== Checkbox Styling ===== */
+  .offer-card input[type="checkbox"] {
+    appearance: none;
+    -webkit-appearance: none;
+    width: 50px;
+    height: 50px;
+    border: 2px solid #000;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    background-color: #fff;
+  }
 
-/* ✔️ علامة الصح */
-.offer-card input[type="checkbox"]:checked::after {
-  content: "✔";
-        position: absolute;
-        color: #000000;
-        font-size: 25px;
-        top: 10px;
-        left: 10px;
-}
+  .offer-card input[type="checkbox"]:hover {
+    box-shadow: 0 0 4px rgba(0, 0, 0, 0.4);
+  }
 
-/* محتوى النص داخل البطاقة */
-.offer-card .pack {
-  flex-grow: 1;
-  margin-right: 10px;
-}
-.offer-card .pack h4::before{
-  content: " العرض رقم 1🎁";
-        background-color: black;
-        color: white;
-        border-radius: 50px;
-        position: absolute;
-        width: 40%;
-        height: 50%;
-        font-size: 3.5rem;
-        text-align: center;
-        left: 20px;
-        top: -40px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-}
+  .offer-card input[type="checkbox"]:checked {
+    background-color: #4caf50;
+    border-color: #000;
+  }
 
-.offer-card:nth-child(2) .pack h4::before{
-  content: " العرض رقم 2🎁";
-        background-color: black;
-        color: white;
-        border-radius: 50px;
-        position: absolute;
-        width: 40%;
-        height: 50%;
-        font-size: 3.5rem;
-        text-align: center;
-        left: 20px;
-        top: -40px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-}
+  .offer-card input[type="checkbox"]:checked::after {
+    content: "✔";
+    position: absolute;
+    color: #000;
+    font-size: 25px;
+    bottom: 39px;
+  }
 
-.offer-card:nth-child(3) .pack h4::before{
-  content: " العرض رقم 3🎁";
-        background-color: black;
-        color: white;
-        border-radius: 50px;
-        position: absolute;
-        width: 40%;
-        height: 50%;
-        font-size: 3.5rem;
-        text-align: center;
-        left: 20px;
-        top: -40px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-}
-.offer-card p {
-  margin: 3px 0;
-  color: #555;
-  font-size: 3.5rem;
-}
+  /* ===== Offer Text ===== */
+  .offer-card .pack {
+    flex-grow: 1;
+    margin-right: 10px;
+  }
 
-.offer-card span {
-  font-weight: bold;
-  color: #007bff;
-  font-size: 15px;
-}
+  .offer-card .pack h4::before {
+    content: " العرض رقم 1🎁";
+    position: absolute;
+    left: 20px;
+    top: -13px;
+    width: 35%;
+    height: 20%;
+    font-size: 1.5rem;
+    background-color: black;
+    color: white;
+    border-radius: 50px;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
 
+  .offer-card:nth-child(2) .pack h4::before {
+    content: "أفضل عرض 🔥🔥";
+  }
 
-.product-price {
-  font-weight: bold;
-  color: #2c3e50;
-}
+  .offer-card:nth-child(3) .pack h4::before {
+    content: " العرض رقم 3🎁";
+  }
 
-.delivery-price {
-  font-weight: bold;
-  color: #27ae60;
-}
+  .offer-card p {
+    margin: 3px 0;
+    color: #555;
+    font-size: 1.5rem;
+    width: 70%;
+  }
 
-.total-price {
-  font-weight: bold;
-  color: #c0392b;
-  font-size: 1.1em;
-}
+  .offer-card span {
+    font-weight: bold;
+    color: #007bff;
+    font-size: 15px;
+  }
 
-.prices{
-  margin-top: 50px;
-    margin-bottom: 50px;
+  /* ===== Prices Section ===== */
+  .prices {
+    margin: 50px 0;
     border: 1px solid black;
     padding: 20px;
+  }
+
+  .product-price {
+    color: #2c3e50;
+    font-weight: bold;
+  }
+  .delivery-price {
+    color: #27ae60;
+    font-weight: bold;
+  }
+  .total-price {
+    color: #c0392b;
+    font-weight: bold;
+    font-size: 1.1em;
+  }
 }
-
-}
-
-/* ------------------------------ */
-
-

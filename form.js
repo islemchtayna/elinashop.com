@@ -68,12 +68,11 @@ const wilayaData = {
 const offers = {
   "1": 1300,
   "2": 2600,
-  "3": 3500,
+  "3": 3500
 };
 
 let selectedOffer = null;
 let selectedProductPrice = 0;
-
 
 // 🟩 اختيار العرض
 function selectOffer(offerId) {
@@ -84,9 +83,9 @@ function selectOffer(offerId) {
     if (checkbox) checkbox.checked = false;
   });
 
-  // 🔍 تحديد البطاقة الصحيحة التي فيها نفس data-offer
+  // 🔍 تحديد البطاقة الصحيحة
   const selectedCard = document.querySelector(`.offer-card[data-offer="${offerId}"]`);
-  if (!selectedCard) return; // 🛑 إذا لم يجد البطاقة يخرج بدون خطأ
+  if (!selectedCard) return;
 
   selectedCard.classList.add("active");
 
@@ -101,7 +100,6 @@ function selectOffer(offerId) {
 
   updateTotal();
 }
-
 
 // 🔄 تحديث الإجمالي عند اختيار العرض أو الولاية
 function updateTotal() {
@@ -124,7 +122,6 @@ function updateTotal() {
   }
 }
 
-
 // 🏙️ تحديث البلديات والسعر
 function updateCommunesAndDelivery() {
   const wilaya = document.getElementById("wilaya").value;
@@ -140,9 +137,8 @@ function updateCommunesAndDelivery() {
     });
   }
 
-  updateTotal(); // تحديث الأسعار بعد تغيير الولاية
+  updateTotal();
 }
-
 
 // ✅ التحقق من الحقول
 function validateName() {
@@ -168,7 +164,6 @@ function validateCommune() {
   document.getElementById("commune-error").textContent = commune ? "" : "الرجاء اختيار البلدية.";
 }
 
-
 // 🧾 التحقق قبل الإرسال
 function validateForm() {
   validateName();
@@ -180,11 +175,11 @@ function validateForm() {
   const hasError = Array.from(errors).some(el => el.textContent !== "");
 
   if (!hasError) {
-    sendToSheet(); // ← نرسل البيانات إلى Google Sheets هنا
+    sendToSheet();
     document.getElementById("success-message").textContent = "✅ تم إرسال الطلب بنجاح!";
 
     setTimeout(() => {
-      // مسح جميع الحقول
+      // مسح الحقول
       document.querySelectorAll("input, select").forEach(el => el.value = "");
 
       // تصفير الأسعار
@@ -192,41 +187,35 @@ function validateForm() {
       document.getElementById("product-price").textContent = "—";
       document.getElementById("total-price").textContent = "—";
 
-      // إزالة التفعيل من بطاقات العروض
+      // إزالة التفعيل من العروض
       document.querySelectorAll(".offer-card").forEach(card => {
         card.classList.remove("active");
       });
 
-      // إخفاء الرسالة
       document.getElementById("success-message").textContent = "";
     }, 2000);
   }
 }
 
-
 // 🟦 عند اختيار العرض
 function handleOfferSelection(checkbox) {
-  // إلغاء تفعيل كل checkboxes ما عدا المختار
   document.querySelectorAll('input[name="offer"]').forEach(cb => {
     const card = cb.closest(".offer-card");
     card.classList.remove("active");
     if (cb !== checkbox) cb.checked = false;
   });
 
-  // إذا تم تحديد عرض
   if (checkbox.checked) {
     const card = checkbox.closest(".offer-card");
     card.classList.add("active");
     selectOffer(checkbox.value);
   } else {
-    // في حال ألغى الاختيار
     selectedOffer = null;
     selectedProductPrice = 0;
     document.getElementById("product-price").textContent = "—";
     document.getElementById("total-price").textContent = "—";
   }
 }
-
 
 // 🚀 إرسال البيانات إلى Google Sheets
 function sendToSheet() {
@@ -242,26 +231,23 @@ function sendToSheet() {
     phone: document.getElementById("phone").value,
     wilaya: document.getElementById("wilaya").value,
     commune: document.getElementById("commune").value,
-    offer: selectedOffer
-      ? selectedOffer + " (" + productPriceText + ")"
-      : "—",
+    offer: selectedOffer ? selectedOffer + " (" + productPriceText + ")" : "—",
     delivery: deliveryText !== "—" ? deliveryText : "0 دج",
     total: totalText !== "—" ? totalText : productPriceText
   };
 
   console.log("📦 البيانات المرسلة:", data);
 
-  fetch("https://script.google.com/macros/s/AKfycbzFKH0twCpN3-UQIDVUa3kf-lyFsciGtYeS36bwDEr8x-OY6ATlqM7Ln-Wbf0C3uhR3tA/exec", {
+  fetch("https://script.google.com/macros/s/AKfycbzU2QWl_MOSxtINei1gIesyKttXZQYxCalDzfF2sBpkQhgzWZSGqNK2cF0iuq_2Y5iERg/exec", {
     method: "POST",
-    mode: "no-cors",
+   mode: "no-cors",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(data)
   })
-  .then(() => console.log("✅ تم الإرسال إلى Google Sheets بنجاح"))
+    .then(response => response.json())
+  .then(result => console.log("✅ تم الإرسال:", result))
   .catch(err => console.error("❌ خطأ أثناء الإرسال:", err));
 }
-
-
 
 
 

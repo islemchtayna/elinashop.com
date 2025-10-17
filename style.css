@@ -82,7 +82,6 @@ header {
   flex-direction: row-reverse;
   align-items: center;
   width: 100%;
-
 }
 .head .container .background {
   display: none;
@@ -152,7 +151,7 @@ header {
 .form-container {
   flex: 1;
   padding: 10px 10px;
-width: 100%;
+  width: 100%;
   border: 3px solid black;
   width: 100%;
   border-radius: 10px;
@@ -160,21 +159,20 @@ width: 100%;
 }
 
 .form-container h2 {
- margin-bottom: 20px;
-    text-align: center;
-    color: #333;
-    position: absolute;
-    top: -35px;
-    width: 150px;
-    height: 40px;
-    background-color: var(--bg-sub-color);
-    color: var(--bg-color);
+  margin-bottom: 20px;
+  text-align: center;
+  color: #333;
+  position: absolute;
+  top: -35px;
+  width: 150px;
+  height: 40px;
+  background-color: var(--bg-sub-color);
+  color: var(--bg-color);
 
-    display: flex
-;
-    align-items: center;
-    justify-content: center;
-    font-size: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
 }
 
 .form-row {
@@ -187,16 +185,15 @@ width: 100%;
   flex: 1;
   min-width: 48%;
   margin-bottom: 12px;
-
 }
-.form-group .labelmg{
-    display: inline-block;
-    margin-top: 40px;
+.form-group .labelmg {
+  display: inline-block;
+  margin-top: 40px;
 }
 label {
   font-weight: bold;
   margin-bottom: 5px;
-font-size: 1.8rem;
+  font-size: 1.8rem;
   color: #444;
 }
 
@@ -451,12 +448,10 @@ button:hover {
   .form-group {
     min-width: 100%;
   }
- .form-group .offer{
-  font-size: 2rem;
- }
+  .form-group .offer {
+    font-size: 2rem;
+  }
   .form-container {
-   
-
   }
 
   /* ===== Slider Buttons ===== */
@@ -603,10 +598,12 @@ button:hover {
   .delivery-price {
     color: #27ae60;
     font-weight: bold;
+    font-size: 1.8rem;
+    margin-right: 5px;
   }
   .total-price {
     color: #c0392b;
-    font-weight: bold;
-    font-size: 1.1em;
+    font-size: 1.8em;
+    margin-right: 5px;
   }
 }

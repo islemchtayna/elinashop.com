@@ -238,15 +238,28 @@ function sendToSheet() {
 
   console.log("📦 البيانات المرسلة:", data);
 
-  fetch("https://script.google.com/macros/s/AKfycbzU2QWl_MOSxtINei1gIesyKttXZQYxCalDzfF2sBpkQhgzWZSGqNK2cF0iuq_2Y5iERg/exec", {
-    method: "POST",
-   mode: "no-cors",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(data)
+ // بدّل الرابط القديم fetch("https://script.google.com/.../exec", ...)
+fetch("/api/sheet", {
+  method: "POST",
+  headers: { "Content-Type": "application/json" },
+  body: JSON.stringify(data)
+})
+  .then(res => res.json())
+  .then(result => {
+    console.log("✅ النتيجة من الخادم:", result);
+    if (result.ok) {
+      console.log("✅ تم الإرسال إلى Google Sheets بنجاح");
+      document.getElementById("success-message").textContent = "✅ تم إرسال الطلب بنجاح!";
+    } else {
+      console.error("❌ فشل في الإرسال:", result.error);
+      document.getElementById("success-message").textContent = "❌ فشل الإرسال: " + (result.error || "خطأ");
+    }
   })
-    .then(response => response.json())
-  .then(result => console.log("✅ تم الإرسال:", result))
-  .catch(err => console.error("❌ خطأ أثناء الإرسال:", err));
+  .catch(err => {
+    console.error("❌ خطأ أثناء الإرسال:", err);
+    document.getElementById("success-message").textContent = "⚠️ لم يتم إرسال الطلب.";
+  });
+
 }
 
 
@@ -442,20 +455,12 @@ function sendToSheet() {
 //     total: document.getElementById("total-price").textContent
 //   };
 
-fetch("https://script.google.com/macros/s/AKfycbwXXXXXXX/exec", {
-  method: "POST",
-  headers: { "Content-Type": "application/json" },
-  body: JSON.stringify(data)
-})
-  .then(async (response) => {
-    // محاولة قراءة JSON، وإن فشل نعيد نص فقط
-    let resultText = await response.text();
-    try {
-      const result = JSON.parse(resultText);
-      console.log("✅ تم الإرسال:", result);
-    } catch {
-      console.log("⚠️ تم الإرسال لكن الردّ ليس JSON:", resultText);
-    }
-  })
-  .catch(err => console.error("❌ خطأ أثناء الإرسال:", err));
-
+//   fetch("https://script.google.com/macros/s/AKfycbxosCq2f5I1bc7uFdeKNNBs6aeDkmngIva2QI39K1YAIhv3WveUH6SRfpePwwgY319ITQ/exec", {
+//     method: "POST",
+//     mode: "no-cors",
+//     headers: { "Content-Type": "application/json" },
+//     body: JSON.stringify(data)
+//   })
+//   .then(() => console.log("✅ تم الإرسال إلى Google Sheets"))
+//   .catch(err => console.error("❌ خطأ أثناء الإرسال:", err));
+// }

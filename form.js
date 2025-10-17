@@ -442,12 +442,20 @@ function sendToSheet() {
 //     total: document.getElementById("total-price").textContent
 //   };
 
-//   fetch("https://script.google.com/macros/s/AKfycbxosCq2f5I1bc7uFdeKNNBs6aeDkmngIva2QI39K1YAIhv3WveUH6SRfpePwwgY319ITQ/exec", {
-//     method: "POST",
-//     mode: "no-cors",
-//     headers: { "Content-Type": "application/json" },
-//     body: JSON.stringify(data)
-//   })
-//   .then(() => console.log("✅ تم الإرسال إلى Google Sheets"))
-//   .catch(err => console.error("❌ خطأ أثناء الإرسال:", err));
-// }
+fetch("https://script.google.com/macros/s/AKfycbwXXXXXXX/exec", {
+  method: "POST",
+  headers: { "Content-Type": "application/json" },
+  body: JSON.stringify(data)
+})
+  .then(async (response) => {
+    // محاولة قراءة JSON، وإن فشل نعيد نص فقط
+    let resultText = await response.text();
+    try {
+      const result = JSON.parse(resultText);
+      console.log("✅ تم الإرسال:", result);
+    } catch {
+      console.log("⚠️ تم الإرسال لكن الردّ ليس JSON:", resultText);
+    }
+  })
+  .catch(err => console.error("❌ خطأ أثناء الإرسال:", err));
+

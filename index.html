@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -7,7 +7,6 @@
       name="description"
       content="عرض رائع - إختر قطعتين وأحصلي على قطعة هدية مجانا 🎁"
     />
-
     <title>🔥 عرض مايتراطاش 🔥</title>
     <link rel="icon" type="image/x-icon" href="/img/logo.ico" />
 
@@ -33,13 +32,6 @@
     <meta property="og:image" content="/img/preview.jpg" />
     <meta property="og:type" content="website" />
     <meta name="theme-color" content="#ffffff" id="theme-color" />
-    <script type="text/javascript">
-    (function(c,l,a,r,i,t,y){
-        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
-        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
-        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
-    })(window, document, "clarity", "script", "ucfhyg6114");
-</script>
   </head>
   <body>
     <header class="header">
@@ -57,10 +49,10 @@
       <div class="container">
         <div class="hero-content">
           <h1 class="hero-title">🔥🔥 عرض مايتراطاش 🔥🔥</h1>
-          <p class="hero-subtitle">بيجامة راااااائعة 😍😍</p>
-          <p class="hero-description">
+          <p class="hero-subtitle">باك بيجامة + فوندروب راااااائعة 😍😍</p>
+          <!-- <p class="hero-description">
             إختر قطعتين وأحصلي على قطعة هدية مجانا من عندنا
-          </p>
+          </p> -->
           <p class="hero-size">مقاسات ستوندار ألوان وأشكال 🎁🎁</p>
           <h2 class="hero-price">2200د.ج</h2>
         </div>
@@ -74,13 +66,15 @@
           </button>
 
           <div class="slides">
-            <img src="/img/1.jpg" alt="فوندروب 1" class="slide active" />
-            <img src="/img/2.jpg" alt="فوندروب 2" class="slide" />
-            <img src="/img/3.jpg" alt="فوندروب 3" class="slide" />
-            <img src="/img/4.jpg" alt="فوندروب 4" class="slide" />
-            <img src="/img/5.jpg" alt="فوندروب 5" class="slide" />
-            <img src="/img/6.jpg" alt="فوندروب 6" class="slide" />
-            <!-- <img src="/img/clothe7.jpg" alt="فوندروب 7" class="slide" /> -->
+            <img src="/img/1.webp" alt="فوندروب 1" class="slide active" />
+            <img src="/img/2.webp" alt="فوندروب 2" class="slide" />
+            <img src="/img/3.webp" alt="فوندروب 3" class="slide" />
+            <img src="/img/4.webp" alt="فوندروب 4" class="slide" />
+            <img src="/img/5.webp" alt="فوندروب 5" class="slide" />
+            <img src="/img/6.webp" alt="فوندروب 6" class="slide" />
+            <img src="/img/7.webp" alt="فوندروب 7" class="slide" />
+            <img src="/img/8.webp" alt="فوندروب 8" class="slide" />
+            <img src="/img/9.webp" alt="فوندروب 9" class="slide" />
           </div>
 
           <button class="slider-btn next" onclick="changeSlide(1)">
@@ -89,243 +83,203 @@
         </div>
       </div>
     </section>
-    <section>
-      <div class="form-container">
-        <h2>معلومات التوصيل</h2>
 
-        <div class="form-row">
-          <div class="form-group margin">
-            <label>الاسم الكامل:</label>
-            <input
-              type="text"
-              id="name"
-              maxlength="20"
-              placeholder="أدخل اسمك"
-              oninput="validateName()"
-            />
-            <div class="error" id="name-error"></div>
-          </div>
-
-          <div class="form-group">
-            <label>رقم الهاتف:</label>
-            <input
-              type="text"
-              id="phone"
-              maxlength="10"
-              placeholder="مثال: 0567891234"
-              oninput="validatePhone()"
-            />
-            <div class="error" id="phone-error"></div>
-          </div>
-        </div>
-
-        <div class="form-row">
-          <div class="form-group">
-            <label>الولاية:</label>
-            <select
-              id="wilaya"
-              onchange="updateCommunesAndDelivery(); validateWilaya();"
-            >
-              <option value="">اختر ولايتك</option>
-              <option value="أدرار">أدرار</option>
-              <option value="الشلف">الشلف</option>
-              <option value="الأغواط">الأغواط</option>
-              <option value="أم البواقي">أم البواقي</option>
-              <option value="باتنة">باتنة</option>
-              <option value="بجاية">بجاية</option>
-              <option value="بسكرة">بسكرة</option>
-              <option value="بشار">بشار</option>
-              <option value="البليدة">البليدة</option>
-              <option value="البويرة">البويرة</option>
-              <option value="تمنراست">تمنراست</option>
-              <option value="تبسة">تبسة</option>
-              <option value="تلمسان">تلمسان</option>
-              <option value="تيارت">تيارت</option>
-              <option value="تيزي وزو">تيزي وزو</option>
-              <option value="الجزائر">الجزائر</option>
-              <option value="الجلفة">الجلفة</option>
-              <option value="جيجل">جيجل</option>
-              <option value="سطيف">سطيف</option>
-              <option value="سعيدة">سعيدة</option>
-              <option value="سكيكدة">سكيكدة</option>
-              <option value="سيدي بلعباس">سيدي بلعباس</option>
-              <option value="عنابة">عنابة</option>
-              <option value="قالمة">قالمة</option>
-              <option value="قسنطينة">قسنطينة</option>
-              <option value="المدية">المدية</option>
-              <option value="مستغانم">مستغانم</option>
-              <option value="المسيلة">المسيلة</option>
-              <option value="معسكر">معسكر</option>
-              <option value="ورقلة">ورقلة</option>
-              <option value="وهران">وهران</option>
-              <option value="البيض">البيض</option>
-              <option value="إليزي">إليزي</option>
-              <option value="برج بوعريريج">برج بوعريريج</option>
-              <option value="بومرداس">بومرداس</option>
-              <option value="الطارف">الطارف</option>
-              <option value="تندوف">تندوف</option>
-              <option value="تسمسيلت">تسمسيلت</option>
-              <option value="الوادي">الوادي</option>
-              <option value="خنشلة">خنشلة</option>
-              <option value="سوق أهراس">سوق أهراس</option>
-              <option value="تيبازة">تيبازة</option>
-              <option value="ميلة">ميلة</option>
-              <option value="عين الدفلى">عين الدفلى</option>
-              <option value="النعامة">النعامة</option>
-              <option value="عين تموشنت">عين تموشنت</option>
-              <option value="غرداية">غرداية</option>
-              <option value="غليزان">غليزان</option>
-              <option value="تيميمون">تيميمون</option>
-              <option value="برج باجي مختار">برج باجي مختار</option>
-              <option value="أولاد جلال">أولاد جلال</option>
-              <option value="بني عباس">بني عباس</option>
-              <option value="عين صالح">عين صالح</option>
-              <option value="عين قزام">عين قزام</option>
-              <option value="توقرت">توقرت</option>
-              <option value="جانت">جانت</option>
-              <option value="المغير">المغير</option>
-              <option value="المنيعة">المنيعة</option>
-            </select>
-            <div class="error" id="wilaya-error"></div>
-          </div>
-
-          <div class="form-group">
-            <label>البلدية:</label>
-            <select id="commune" onchange="validateCommune()">
-              <option value="">اختر البلدية</option>
-            </select>
-            <div class="error" id="commune-error"></div>
-          </div>
-        </div>
-
-        <div class="form-group">
-          <label>نوع التوصيل:</label>
-          <div class="delivery-options">
-            <label class="delivery-option" data-type="office">
+    <section class="hero" id="order">
+      <div class="container">
+        <div class="form-container">
+          <h2 class="form-title">أدخل معلوماتك للطلب</h2>
+          <form name="google-sheet" id="orderForm">
+            <div class="form-group margin-top">
+              <label class="form-label">الاسم الكامل:</label>
               <input
-                type="radio"
-                name="delivery-type"
-                value="office"
-                onchange="handleDeliverySelection(this)"
+                type="text"
+                class="form-input"
+                name="full-name"
+                id="full-name"
+                placeholder="إسمك الكامل"
+                required
               />
-              <div class="pack">
-                <h4>استلام من المكتب</h4>
-                <p>سعر التوصيل العادي</p>
-              </div>
-            </label>
+            </div>
 
-            <label class="delivery-option" data-type="home">
+            <div class="form-group">
+              <label class="form-label">رقم الهاتف:</label>
               <input
-                type="radio"
-                name="delivery-type"
-                value="home"
-                onchange="handleDeliverySelection(this)"
+                type="tel"
+                class="form-input"
+                name="phone"
+                id="phone"
+                placeholder="06XXXXXXXX"
+                required
               />
-              <div class="pack">
-                <h4>توصيل للمنزل</h4>
-                <p>سعر توصيل المنزل</p>
+              <div class="error" id="phone-error"></div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">الولاية:</label>
+              <select
+                class="form-input"
+                id="wilaya"
+                name="wilaya"
+                onchange="window.populateCommunes()"
+                required
+              >
+                <option value="">جاري تحميل الولايات...</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">البلدية:</label>
+              <select class="form-input" id="commune" name="commune" required>
+                <option value="">إختر الولاية أولاً</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label">إختر العرض المناسب:</label>
+              <div class="product-options">
+                <label class="product-card">
+                  <input
+                    type="radio"
+                    name="product-choice"
+                    value="p1"
+                    data-price="1300"
+                    onchange="window.updateTotal()"
+                    checked
+                  />
+                  <div class="product-info">
+                    <span class="p-name">بيجامة قطعة واحدة</span>
+                    <span class="p-price">1300 دج</span>
+                  </div>
+                </label>
+
+                <label class="product-card">
+                  <input
+                    type="radio"
+                    name="product-choice"
+                    value="p2"
+                    data-price="2400"
+                    onchange="window.updateTotal()"
+                  />
+                  <div class="product-info">
+                    <span class="p-name">عرض قطعتين (تخفيض)</span>
+                    <span class="p-price">2400 دج</span>
+                  </div>
+                </label>
               </div>
-            </label>
-          </div>
-          <div class="error" id="delivery-type-error"></div>
-        </div>
+            </div>
+            <div class="shipping-methods">
+              <label class="shipping-option">
+                <input
+                  type="radio"
+                  name="delivery"
+                  value="office"
+                  onchange="window.updateTotal()"
+                  checked
+                />
+                <span>مكتب ياليدين</span>
+              </label>
+              <label class="shipping-option">
+                <input
+                  type="radio"
+                  name="delivery"
+                  value="home"
+                  onchange="window.updateTotal()"
+                />
+                <span>توصيل للمنزل</span>
+              </label>
+            </div>
 
-        <div class="form-group">
-          <label>اختر العرض:</label>
-          <div class="offers-container">
-            <label class="offer-card" data-offer="1">
-              <input
-                type="radio"
-                name="offer"
-                value="1"
-                onchange="handleOfferSelection(this)"
-              />
-              <div class="pack">
-                <h4>عرض قطعة واحدة</h4>
-                <p>اختر قطعة واحدة ب 2200 دج</p>
+            <div class="price-summary-box">
+              <div class="price-line">
+                <span>سعر المنتج:</span> <span id="product-price">1300 دج</span>
               </div>
-            </label>
-
-            <!-- <label class="offer-card" data-offer="2">
-              <input
-                type="radio"
-                name="offer"
-                value="2"
-                onchange="handleOfferSelection(this)"
-              />
-              <div class="pack">
-                <h4>عرض قطعتان</h4>
-                <p>اختر قطعتان ب 2600 دج و احصل على هدية مجانا</p>
+              <div class="price-line">
+                <span>سعر التوصيل:</span> <span id="shipping-price">0 دج</span>
               </div>
-            </label>
-
-            <label class="offer-card" data-offer="3">
-              <input
-                type="radio"
-                name="offer"
-                value="3"
-                onchange="handleOfferSelection(this)"
-              />
-              <div class="pack">
-                <h4>عرض 3 قطع</h4>
-                <p>اختر 3 قطع ب 3500 دج و احصل على 2 هدايا مجانا</p>
+              <hr />
+              <div class="price-line total">
+                <span>الإجمالي:</span> <span id="total-price">1300 دج</span>
               </div>
-            </label> -->
-          </div>
-        </div>
+            </div>
 
-        <div class="prices-summary">
-          <div class="price-item">
-            <span>💰 سعر المنتج:</span>
-            <span id="product-price" class="product-price">0 دج</span>
-          </div>
-          <div class="price-item">
-            <span>🚚 سعر التوصيل:</span>
-            <span id="delivery" class="delivery-price">0 دج</span>
-          </div>
-          <div class="price-item total">
-            <span>🧾 السعر الإجمالي:</span>
-            <span id="total-price" class="total-price">0 دج</span>
-          </div>
-        </div>
-
-        <button id="submit-btn" class="submit-btn" onclick="validateForm()">
-          <span class="btn-text">
-            <i class="fas fa-check-circle"></i>
-            تأكيد الطلب
-          </span>
-          <div class="spinner"></div>
-        </button>
-
-        <p id="success-message"></p>
-      </div>
-
-      <div id="successModal" class="modal">
-        <div class="modal-content">
-          <span class="modal-icon-success">
-            <i class="fas fa-check-circle"></i>
-          </span>
-          <h2>✅ تم إرسال طلبك بنجاح!</h2>
-          <p>سنتصل بك قريبًا لتأكيد الطلب و اختيار الألوان و التوصيل.</p>
-          <button class="modal-btn" onclick="closeModal()">تم</button>
-        </div>
-      </div>
-
-      <div id="offerErrorModal" class="modal">
-        <div class="modal-content error">
-          <span class="modal-icon-error">
-            <i class="fas fa-exclamation-triangle"></i>
-          </span>
-          <h2>تنبيه!</h2>
-          <p>الرجاء اختيار عرض من العروض المتاحة أولاً.</p>
-          <button class="modal-btn error" onclick="closeErrorModal()">
-            حسنًا
-          </button>
+            <button type="submit" id="submit-btn" class="submit-btn">
+              إرسال الطلب
+            </button>
+          </form>
         </div>
       </div>
     </section>
 
+    <div id="successModal" class="modal">
+      <div class="modal-content">
+        <i class="fas fa-check-circle success-icon"></i>
+        <h3>تم استلام طلبك بنجاح!</h3>
+        <p>سنتصل بك قريباً لتأكيد الطلب.</p>
+        <button onclick="window.closeModal('successModal')" class="submit-btn">
+          حسناً
+        </button>
+      </div>
+    </div>
+
+    <div id="offerErrorModal" class="modal">
+      <div class="modal-content">
+        <i class="fas fa-times-circle error-icon"></i>
+        <h3>عذراً، حدث خطأ!</h3>
+        <p>يرجى التأكد من الاتصال بالإنترنت والمحاولة مجدداً.</p>
+        <button
+          onclick="window.closeModal('offerErrorModal')"
+          class="submit-btn"
+        >
+          إغلاق
+        </button>
+      </div>
+    </div>
+
+    <div class="up"><i class="fas fa-chevron-up"></i></div>
+
+    <section class="Warranty container">
+      <div class="policy">
+        <h3>سياسة الضمان:</h3>
+        <p>
+          نحن ملتزمون بتعويض عملائنا في حالة وصول المنتج بحالة غير سليمة، سواء
+          كان تالفًا أو يحتوي على عيوب.
+        </p>
+      </div>
+      <div class="policy">
+        <h3>سياسة التوزيع:</h3>
+        <p>
+          نتواصل مع العميل في غضون 24 ساعة من تقديم الطلب للتأكيد عبر الهاتف.
+          يتم استخدام المعلومات المقدمة من العميل طوعاً لضمان توصيل الطلب إلى
+          العنوان المحدد. تستغرق عملية التسليم من 2 إلى 3 أيام، وذلك حسب
+          المنطقة.
+        </p>
+      </div>
+      <div class="policy">
+        <h3>سياسة الدفع:</h3>
+        <p>
+          نتبع نظام الدفع عند الاستلام، حيث لا نطلب أي مبالغ مسبقة. نؤمن بأهمية
+          الثقة المتبادلة بيننا وبين عملائنا. يتم دفع قيمة المنتج عند استلامه، .
+        </p>
+      </div>
+    </section>
+    <footer>
+      <div class="container">
+        <div class="information">
+          <div class="logo">
+            <a href="index.html"><img src="/img/logo.png" alt="logo" /></a>
+          </div>
+          <div class="social-media">
+            <a href="https://www.facebook.com/ellina.shopdz"
+              ><i class="fa-brands fa-facebook"></i
+            ></a>
+            <a href="https://www.instagram.com/elina.shopdz/"
+              ><i class="fa-brands fa-instagram"></i
+            ></a>
+          </div>
+        </div>
+      </div>
+      <span>جميع الحقوق محفوظة ل ELINA SHOP</span>
+    </footer>
     <script src="/form.js"></script>
+    <script src="/tracking.js"></script>
   </body>
 </html>
-

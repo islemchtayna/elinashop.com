@@ -678,7 +678,7 @@ select:focus {
   width: 100%;
   height: 100%;
   background: rgba(0, 0, 0, 0.7);
-  z-index: 2000;
+  z-index: 10000;
   align-items: center;
   justify-content: center;
   padding: var(--spacing-md);
@@ -1015,31 +1015,14 @@ footer span:hover {
   padding-top: 8px;
   font-size: 1.2rem;
 }
-.modal {
-  display: none;
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.6);
-  justify-content: center;
-  align-items: center;
-  z-index: 9999;
-}
-.modal-content {
-  background: #fff;
-  padding: 30px;
-  border-radius: 15px;
-  text-align: center;
-}
 
 .price-summary-box {
   background: var(--bg-secondary);
   padding: 15px;
   border-radius: 10px;
-  border: 1px solid var(--border-color);
+  border: 2px solid var(--primary-color);
   margin-bottom: 20px;
+  margin-top: 20px;
 }
 .price-line {
   color: var(--primary-color);
@@ -1054,26 +1037,7 @@ footer span:hover {
   font-size: 1.6rem;
   margin-top: 10px;
 }
-.modal {
-  display: none;
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.7);
-  z-index: 10000;
-  justify-content: center;
-  align-items: center;
-}
-.modal-content {
-  background: #fff;
-  padding: 30px;
-  border-radius: 15px;
-  text-align: center;
-  max-width: 90%;
-  width: 400px;
-}
+
 .success-icon {
   color: #4caf50;
   font-size: 3rem;
@@ -1118,7 +1082,7 @@ footer span:hover {
 
 .p-name {
   font-weight: bold;
-  font-size: 0.95rem;
+  font-size: 1.5rem;
 }
 .p-price {
   color: var(--primary-color);
@@ -1135,7 +1099,6 @@ footer span:hover {
   display: flex;
   gap: 20px;
   justify-content: center;
-  margin: 20px 0;
 }
 .shipping-option {
   display: flex;
@@ -1157,4 +1120,21 @@ footer span:hover {
 .shipping-option:has(input:checked) {
   border-color: var(--primary-color);
   background-color: #fff0f5; /* لون خفيف جداً من لون ثانوي */
+}
+.loader {
+  width: 20px;
+  height: 20px;
+  border: 3px solid #fff;
+  border-bottom-color: transparent;
+  border-radius: 50%;
+  display: inline-block;
+  animation: rotation 1s linear infinite;
+}
+@keyframes rotation {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }

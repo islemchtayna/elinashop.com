@@ -1,9 +1,12 @@
 <!doctype html>
-<html lang="en">
+<html lang="ar" dir="rtl">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="facebook-domain-verification" content="0nc4bg69hbx6nmnf82fwbepg23yu8p" />
+    <meta
+      name="facebook-domain-verification"
+      content="0nc4bg69hbx6nmnf82fwbepg23yu8p"
+    />
     <meta
       name="description"
       content="عرض رائع - إختر قطعتين وأحصلي على قطعة هدية مجانا 🎁"
@@ -17,12 +20,10 @@
       href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700&display=swap"
       rel="stylesheet"
     />
-
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
     />
-
     <link rel="stylesheet" href="/style.css" />
 
     <meta property="og:title" content="عرض مايتراطاش - بيجامة راائعة" />
@@ -51,21 +52,18 @@
         <div class="hero-content">
           <h1 class="hero-title">🔥🔥 عرض مايتراطاش 🔥🔥</h1>
           <p class="hero-subtitle">باك بيجامة + فوندروب راااااائعة 😍😍</p>
-          <!-- <p class="hero-description">
-            إختر قطعتين وأحصلي على قطعة هدية مجانا من عندنا
-          </p> -->
           <p class="hero-size">مقاسات ستوندار ألوان وأشكال 🎁🎁</p>
           <h2 class="hero-price">2200د.ج</h2>
         </div>
       </div>
     </section>
+
     <section>
       <div class="slider-section">
         <div class="slider">
           <button class="slider-btn prev" onclick="changeSlide(-1)">
             <i class="fas fa-chevron-right"></i>
           </button>
-
           <div class="slides">
             <img src="/img/1.webp" alt="فوندروب 1" class="slide active" />
             <img src="/img/2.webp" alt="فوندروب 2" class="slide" />
@@ -77,7 +75,6 @@
             <img src="/img/8.webp" alt="فوندروب 8" class="slide" />
             <img src="/img/9.webp" alt="فوندروب 9" class="slide" />
           </div>
-
           <button class="slider-btn next" onclick="changeSlide(1)">
             <i class="fas fa-chevron-left"></i>
           </button>
@@ -110,9 +107,16 @@
                 name="phone"
                 id="phone"
                 placeholder="06XXXXXXXX"
+                maxlength="10"
                 required
               />
-              <div class="error" id="phone-error"></div>
+              <div
+                class="phone-counter"
+                id="phone-counter"
+                style="font-size: 0.85em; color: #666; margin-top: 5px"
+              >
+                باقي 10 أرقام
+              </div>
             </div>
 
             <div class="form-group">
@@ -120,12 +124,13 @@
               <select
                 class="form-input"
                 id="wilaya"
-                name="wilaya"
+                name="wilaya_ar"
                 onchange="window.populateCommunes()"
                 required
               >
                 <option value="">جاري تحميل الولايات...</option>
               </select>
+              <input type="hidden" id="wilaya_fr" name="wilaya" value="" />
             </div>
 
             <div class="form-group">
@@ -134,39 +139,39 @@
                 <option value="">إختر الولاية أولاً</option>
               </select>
             </div>
+
             <div class="form-group">
               <label class="form-label">إختر العرض المناسب:</label>
               <div class="product-options">
-                <label class="product-card">
+                <label class="product-card" id="p1-container">
                   <input
                     type="radio"
                     name="product-choice"
                     value="p1"
-                    data-price="1300"
                     onchange="window.updateTotal()"
                     checked
                   />
                   <div class="product-info">
-                    <span class="p-name">بيجامة قطعة واحدة</span>
-                    <span class="p-price">1300 دج</span>
+                    <span class="p-name" id="p1-name"></span>
+                    <span class="p-price" id="p1-price"> دج</span>
                   </div>
                 </label>
 
-                <label class="product-card">
+                <label class="product-card" id="p2-container">
                   <input
                     type="radio"
                     name="product-choice"
                     value="p2"
-                    data-price="2400"
                     onchange="window.updateTotal()"
                   />
                   <div class="product-info">
-                    <span class="p-name">عرض قطعتين (تخفيض)</span>
-                    <span class="p-price">2400 دج</span>
+                    <span class="p-name" id="p2-name"></span>
+                    <span class="p-price" id="p2-price"> دج</span>
                   </div>
                 </label>
               </div>
             </div>
+
             <div class="shipping-methods">
               <label class="shipping-option">
                 <input
@@ -176,7 +181,7 @@
                   onchange="window.updateTotal()"
                   checked
                 />
-                <span>مكتب ياليدين</span>
+                <span>توصيل للمكتب</span>
               </label>
               <label class="shipping-option">
                 <input
@@ -191,14 +196,14 @@
 
             <div class="price-summary-box">
               <div class="price-line">
-                <span>سعر المنتج:</span> <span id="product-price">1300 دج</span>
+                <span>سعر المنتج:</span> <span id="product-price">0 دج</span>
               </div>
               <div class="price-line">
                 <span>سعر التوصيل:</span> <span id="shipping-price">0 دج</span>
               </div>
               <hr />
               <div class="price-line total">
-                <span>الإجمالي:</span> <span id="total-price">1300 دج</span>
+                <span>الإجمالي:</span> <span id="total-price">0 دج</span>
               </div>
             </div>
 
@@ -215,7 +220,11 @@
         <i class="fas fa-check-circle success-icon"></i>
         <h3>تم استلام طلبك بنجاح!</h3>
         <p>سنتصل بك قريباً لتأكيد الطلب.</p>
-        <button onclick="window.closeModal('successModal')" class="submit-btn">
+        <button
+          type="button"
+          onclick="window.closeModal('successModal')"
+          class="submit-btn"
+        >
           حسناً
         </button>
       </div>
@@ -227,6 +236,7 @@
         <h3>عذراً، حدث خطأ!</h3>
         <p>يرجى التأكد من الاتصال بالإنترنت والمحاولة مجدداً.</p>
         <button
+          type="button"
           onclick="window.closeModal('offerErrorModal')"
           class="submit-btn"
         >
@@ -262,6 +272,7 @@
         </p>
       </div>
     </section>
+
     <footer>
       <div class="container">
         <div class="information">
@@ -280,8 +291,7 @@
       </div>
       <span>جميع الحقوق محفوظة ل ELINA SHOP</span>
     </footer>
+
     <script src="/form.js"></script>
-    <script src="/tracking.js"></script>
   </body>
 </html>
-

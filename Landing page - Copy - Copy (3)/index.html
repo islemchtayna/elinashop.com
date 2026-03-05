@@ -1,0 +1,297 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="facebook-domain-verification"
+      content="0nc4bg69hbx6nmnf82fwbepg23yu8p"
+    />
+    <meta
+      name="description"
+      content="عرض رائع - إختر قطعتين وأحصلي على قطعة هدية مجانا 🎁"
+    />
+    <title>🔥 عرض مايتراطاش 🔥</title>
+    <link rel="icon" type="image/x-icon" href="/img/logo.ico" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+    />
+    <link rel="stylesheet" href="/style.css" />
+
+    <meta property="og:title" content="عرض مايتراطاش - بيجامة راائعة" />
+    <meta
+      property="og:description"
+      content="إختر قطعتين وأحصلي على قطعة هدية مجانا 🎁"
+    />
+    <meta property="og:image" content="/img/preview.jpg" />
+    <meta property="og:type" content="website" />
+    <meta name="theme-color" content="#ffffff" id="theme-color" />
+  </head>
+  <body>
+    <header class="header">
+      <div class="container">
+        <div class="header-content">
+          <div class="logo">
+            <img src="/img/logo.png" alt="Logo" />
+          </div>
+          <div class="header-text">خلي ستايلك بيتكلم عنك 💖</div>
+        </div>
+      </div>
+    </header>
+
+    <section class="hero">
+      <div class="container">
+        <div class="hero-content">
+          <h1 class="hero-title">🔥🔥 عرض مايتراطاش 🔥🔥</h1>
+          <p class="hero-subtitle">باك بيجامة + فوندروب راااااائعة 😍😍</p>
+          <p class="hero-size">مقاسات ستوندار ألوان وأشكال 🎁🎁</p>
+          <h2 class="hero-price">2200د.ج</h2>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="slider-section">
+        <div class="slider">
+          <button class="slider-btn prev" onclick="changeSlide(-1)">
+            <i class="fas fa-chevron-right"></i>
+          </button>
+          <div class="slides">
+            <img src="/img/1.webp" alt="فوندروب 1" class="slide active" />
+            <img src="/img/2.webp" alt="فوندروب 2" class="slide" />
+            <img src="/img/3.webp" alt="فوندروب 3" class="slide" />
+            <img src="/img/4.webp" alt="فوندروب 4" class="slide" />
+            <img src="/img/5.webp" alt="فوندروب 5" class="slide" />
+            <img src="/img/6.webp" alt="فوندروب 6" class="slide" />
+            <img src="/img/7.webp" alt="فوندروب 7" class="slide" />
+            <img src="/img/8.webp" alt="فوندروب 8" class="slide" />
+            <img src="/img/9.webp" alt="فوندروب 9" class="slide" />
+          </div>
+          <button class="slider-btn next" onclick="changeSlide(1)">
+            <i class="fas fa-chevron-left"></i>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <section class="hero" id="order">
+      <div class="container">
+        <div class="form-container">
+          <h2 class="form-title">أدخل معلوماتك للطلب</h2>
+          <form name="google-sheet" id="orderForm">
+            <div class="form-group margin-top">
+              <label class="form-label">الاسم الكامل:</label>
+              <input
+                type="text"
+                class="form-input"
+                name="full-name"
+                id="full-name"
+                placeholder="إسمك الكامل"
+                required
+              />
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">رقم الهاتف:</label>
+              <input
+                type="tel"
+                class="form-input"
+                name="phone"
+                id="phone"
+                placeholder="06XXXXXXXX"
+                maxlength="10"
+                required
+              />
+              <div
+                class="phone-counter"
+                id="phone-counter"
+                style="font-size: 0.85em; color: #666; margin-top: 5px"
+              >
+                باقي 10 أرقام
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">الولاية:</label>
+              <select
+                class="form-input"
+                id="wilaya"
+                name="wilaya_ar"
+                onchange="window.populateCommunes()"
+                required
+              >
+                <option value="">جاري تحميل الولايات...</option>
+              </select>
+              <input type="hidden" id="wilaya_fr" name="wilaya" value="" />
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">البلدية:</label>
+              <select class="form-input" id="commune" name="commune" required>
+                <option value="">إختر الولاية أولاً</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">إختر العرض المناسب:</label>
+              <div class="product-options">
+                <label class="product-card" id="p1-container">
+                  <input
+                    type="radio"
+                    name="product-choice"
+                    value="p1"
+                    onchange="window.updateTotal()"
+                    checked
+                  />
+                  <div class="product-info">
+                    <span class="p-name" id="p1-name"></span>
+                    <span class="p-price" id="p1-price"> دج</span>
+                  </div>
+                </label>
+
+                <label class="product-card" id="p2-container">
+                  <input
+                    type="radio"
+                    name="product-choice"
+                    value="p2"
+                    onchange="window.updateTotal()"
+                  />
+                  <div class="product-info">
+                    <span class="p-name" id="p2-name"></span>
+                    <span class="p-price" id="p2-price"> دج</span>
+                  </div>
+                </label>
+              </div>
+            </div>
+
+            <div class="shipping-methods">
+              <label class="shipping-option">
+                <input
+                  type="radio"
+                  name="delivery"
+                  value="office"
+                  onchange="window.updateTotal()"
+                  checked
+                />
+                <span>توصيل للمكتب</span>
+              </label>
+              <label class="shipping-option">
+                <input
+                  type="radio"
+                  name="delivery"
+                  value="home"
+                  onchange="window.updateTotal()"
+                />
+                <span>توصيل للمنزل</span>
+              </label>
+            </div>
+
+            <div class="price-summary-box">
+              <div class="price-line">
+                <span>سعر المنتج:</span> <span id="product-price">0 دج</span>
+              </div>
+              <div class="price-line">
+                <span>سعر التوصيل:</span> <span id="shipping-price">0 دج</span>
+              </div>
+              <hr />
+              <div class="price-line total">
+                <span>الإجمالي:</span> <span id="total-price">0 دج</span>
+              </div>
+            </div>
+
+            <button type="submit" id="submit-btn" class="submit-btn">
+              إرسال الطلب
+            </button>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <div id="successModal" class="modal">
+      <div class="modal-content">
+        <i class="fas fa-check-circle success-icon"></i>
+        <h3>تم استلام طلبك بنجاح!</h3>
+        <p>سنتصل بك قريباً لتأكيد الطلب.</p>
+        <button
+          type="button"
+          onclick="window.closeModal('successModal')"
+          class="submit-btn"
+        >
+          حسناً
+        </button>
+      </div>
+    </div>
+
+    <div id="offerErrorModal" class="modal">
+      <div class="modal-content">
+        <i class="fas fa-times-circle error-icon"></i>
+        <h3>عذراً، حدث خطأ!</h3>
+        <p>يرجى التأكد من الاتصال بالإنترنت والمحاولة مجدداً.</p>
+        <button
+          type="button"
+          onclick="window.closeModal('offerErrorModal')"
+          class="submit-btn"
+        >
+          إغلاق
+        </button>
+      </div>
+    </div>
+
+    <div class="up"><i class="fas fa-chevron-up"></i></div>
+
+    <section class="Warranty container">
+      <div class="policy">
+        <h3>سياسة الضمان:</h3>
+        <p>
+          نحن ملتزمون بتعويض عملائنا في حالة وصول المنتج بحالة غير سليمة، سواء
+          كان تالفًا أو يحتوي على عيوب.
+        </p>
+      </div>
+      <div class="policy">
+        <h3>سياسة التوزيع:</h3>
+        <p>
+          نتواصل مع العميل في غضون 24 ساعة من تقديم الطلب للتأكيد عبر الهاتف.
+          يتم استخدام المعلومات المقدمة من العميل طوعاً لضمان توصيل الطلب إلى
+          العنوان المحدد. تستغرق عملية التسليم من 2 إلى 3 أيام، وذلك حسب
+          المنطقة.
+        </p>
+      </div>
+      <div class="policy">
+        <h3>سياسة الدفع:</h3>
+        <p>
+          نتبع نظام الدفع عند الاستلام، حيث لا نطلب أي مبالغ مسبقة. نؤمن بأهمية
+          الثقة المتبادلة بيننا وبين عملائنا. يتم دفع قيمة المنتج عند استلامه، .
+        </p>
+      </div>
+    </section>
+
+    <footer>
+      <div class="container">
+        <div class="information">
+          <div class="logo">
+            <a href="index.html"><img src="/img/logo.png" alt="logo" /></a>
+          </div>
+          <div class="social-media">
+            <a href="https://www.facebook.com/ellina.shopdz"
+              ><i class="fa-brands fa-facebook"></i
+            ></a>
+            <a href="https://www.instagram.com/elina.shopdz/"
+              ><i class="fa-brands fa-instagram"></i
+            ></a>
+          </div>
+        </div>
+      </div>
+      <span>جميع الحقوق محفوظة ل ELINA SHOP</span>
+    </footer>
+
+    <script src="/form.js"></script>
+  </body>
+</html>

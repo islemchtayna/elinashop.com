@@ -69,6 +69,17 @@
   --transition-slow: 0.5s ease;
 }
 
+@font-face {
+  font-family: "Tajawal"; /* Name you choose to refer to the font */
+  src: url("/font/Tajawal-Regular.ttf") format("ttf");
+  src: url("/font/Tajawal-Black.ttf") format("ttf");
+  src: url("/font/Tajawal-Bold.ttf") format("ttf");
+  src: url("/font/Tajawal-Light.ttf") format("ttf");
+  src: url("/font/Tajawal-Medium.ttf") format("ttf");
+  src: url("/font/Tajawal-ExtraLight.ttf") format("ttf");
+  src: url("/font/Tajawal-ExtraBold.ttf") format("ttf");
+}
+
 /* ===== RESET & BASE STYLES ===== */
 * {
   margin: 0;
@@ -224,6 +235,15 @@ a {
   font-weight: 700;
   color: #ffeb3b;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.container .images {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.container .images img {
+  width: 100%;
 }
 
 /* ===== PRODUCTS SECTION ===== */
@@ -768,10 +788,14 @@ select:focus {
   margin-top: 10%;
   border: 2px solid var(--primary-color);
   border-radius: var(--border-radius-xl);
+  padding: 10px 10px;
 }
 
 .Warranty .policy {
   margin-top: 5%;
+}
+.Warranty .mgbottom {
+  margin-bottom: 5%;
 }
 
 .Warranty .policy h3 {

@@ -1,15 +1,17 @@
 const SETTINGS = {
   scriptURL:
-    "https://script.google.com/macros/s/AKfycbxiG0mAPQoaKJmrHaq5WPD9lXh1ZxmXUN72dVE1dlBJJb1BaS9mTREihnizFv-z15vksQ/exec",
+    "https://script.google.com/macros/s/AKfycbzz1mwpnR_YR6Oh4Bs6DRQt0oEtaAodOVM91kxCcJmI1M-bMxNpS9sZNGbjMIFoQzyCmQ/exec",
   fallbackShipping: { office: 600, home: 800 },
 };
 
 let locations = {};
 let remoteData = { shipping: {}, products: {}, locations: [] };
+let isFormSubmitted = false;
+let lastSentPhone = ""; // متغير جديد لتتبع آخر رقم تم إرساله بنجاح
 
 const getEl = (id) => document.getElementById(id);
 
-// دالة سحرية لزرع كود الفيسبوك في الصفحة ديناميكياً
+// --- 1. نظام الفيسبوك بيكسل ---
 function insertFacebookPixel(id) {
   !(function (f, b, e, v, n, t, s) {
     if (f.fbq) return;
@@ -34,97 +36,54 @@ function insertFacebookPixel(id) {
   );
   fbq("init", id);
   fbq("track", "PageView");
-  console.log("✅ Facebook Pixel Active: " + id);
 }
 
-// تهيئة البيانات عند فتح الصفحة
+// --- 2. تهيئة البيانات ---
 async function initApp() {
   try {
     const response = await fetch(`${SETTINGS.scriptURL}?t=${Date.now()}`);
     if (!response.ok) throw new Error("Network response was not ok");
 
     remoteData = await response.json();
+    if (remoteData.pixelId) insertFacebookPixel(remoteData.pixelId);
 
-    // التحقق من وصول البيانات بشكل صحيح
-    if (!remoteData || typeof remoteData !== "object") {
-      throw new Error("بيانات السيرفر غير صالحة");
-    }
+    document
+      .querySelectorAll('input[name="product-choice"]')
+      .forEach((inputEl) => {
+        const pId = inputEl.value;
+        const pData = remoteData.products?.[pId];
+        const containerEl = getEl(`${pId}-container`);
 
-    // 🔥 زرع كود البيكسل تلقائياً إذا وجد الرقم في غوغل شيت
-    if (remoteData.pixelId) {
-      insertFacebookPixel(remoteData.pixelId);
-    }
-
-    // 1. تحديث المنتجات (بأمان) بناءً على العناصر الموجودة في الصفحة
-    const productInputs = document.querySelectorAll(
-      'input[name="product-choice"]',
-    );
-
-    productInputs.forEach((inputEl) => {
-      const pId = inputEl.value;
-      const pData = remoteData.products ? remoteData.products[pId] : null;
-
-      const nameEl = getEl(`${pId}-name`);
-      const priceEl = getEl(`${pId}-price`);
-      const containerEl = getEl(`${pId}-container`);
-
-      if (pData && pData.name && pData.name.trim() !== "") {
-        if (nameEl) nameEl.textContent = pData.name;
-        if (priceEl) priceEl.textContent = pData.price + " دج";
-        if (containerEl) containerEl.style.display = "flex";
-        inputEl.disabled = false;
-      } else {
-        if (containerEl) containerEl.style.display = "none";
-        inputEl.disabled = true;
-
-        // إذا كان المنتج المحذوف محدداً مسبقاً، نزيل التحديد
-        if (inputEl.checked) {
-          inputEl.checked = false;
+        if (pData && pData.name && pData.name.trim() !== "") {
+          if (getEl(`${pId}-name`))
+            getEl(`${pId}-name`).textContent = pData.name;
+          if (getEl(`${pId}-price`))
+            getEl(`${pId}-price`).textContent = pData.price + " دج";
+          if (containerEl) containerEl.style.display = "flex";
+          inputEl.disabled = false;
+        } else {
+          if (containerEl) containerEl.style.display = "none";
+          inputEl.disabled = true;
         }
-      }
-    });
+      });
 
-    // تحديد أول منتج متاح إذا لم يكن هناك منتج محدد
-    const checkedProduct = document.querySelector(
-      'input[name="product-choice"]:checked',
-    );
-    if (!checkedProduct) {
-      const firstAvailable = document.querySelector(
-        'input[name="product-choice"]:not(:disabled)',
-      );
-      if (firstAvailable) {
-        firstAvailable.checked = true;
-      }
-    }
-
-    // 2. معالجة الولايات (بأمان)
     if (remoteData.locations && Array.isArray(remoteData.locations)) {
-      locations = {}; // إعادة تصفير الولايات
+      locations = {};
       remoteData.locations.forEach((item) => {
-        if (item && item.wilaya_name) {
-          const wAr = item.wilaya_name.trim(); // Arabic name
-          const wFr = item.wilaya_name_ascii
-            ? item.wilaya_name_ascii.trim()
-            : item.wilaya_name_fr
-              ? item.wilaya_name_fr.trim()
-              : wAr; // Fallback to French or ASCII if available, else keep Arabic
+        const wAr = item.wilaya_name?.trim();
+        if (wAr) {
           if (!locations[wAr]) {
             locations[wAr] = {
-              name_fr: wFr,
+              name_fr: item.wilaya_name_ascii || item.wilaya_name_fr || wAr,
               code: (item.wilaya_code || "00").toString().padStart(2, "0"),
               communes: [],
             };
           }
           if (item.commune_name) {
-            const cAr = item.commune_name.trim();
-            const cFr = item.commune_name_ascii
-              ? item.commune_name_ascii.trim()
-              : item.commune_name_fr
-                ? item.commune_name_fr.trim()
-                : cAr;
-            if (!locations[wAr].communes.some((c) => c.ar === cAr)) {
-              locations[wAr].communes.push({ ar: cAr, fr: cFr });
-            }
+            locations[wAr].communes.push({
+              ar: item.commune_name.trim(),
+              fr: item.commune_name_ascii || item.commune_name,
+            });
           }
         }
       });
@@ -133,14 +92,10 @@ async function initApp() {
     renderWilayas();
     window.updateTotal();
   } catch (error) {
-    console.error("⚠️ خطأ في الاتصال بالسيرفر:", error);
-    // إظهار رسالة بسيطة للمستخدم إذا فشل التحميل
-    const wSelect = getEl("wilaya");
-    if (wSelect)
-      wSelect.innerHTML = '<option value="">خطأ في تحميل البيانات...</option>';
+    console.error("⚠️ خطأ:", error);
   }
 }
-// عرض الولايات في القائمة
+
 function renderWilayas() {
   const wSelect = getEl("wilaya");
   if (!wSelect) return;
@@ -150,19 +105,14 @@ function renderWilayas() {
     .forEach((w) => wSelect.add(new Option(w, w)));
 }
 
-// تحديث البلديات واسم الولاية بالفرنسية
 window.populateCommunes = function () {
   const wAr = getEl("wilaya").value;
+  if (getEl("wilaya_fr"))
+    getEl("wilaya_fr").value = locations[wAr]?.name_fr || "";
   const cSelect = getEl("commune");
-  const wFrInput = getEl("wilaya_fr");
-
-  if (wFrInput) {
-    wFrInput.value = wAr && locations[wAr] ? locations[wAr].name_fr : "";
-  }
-
   if (!cSelect) return;
   cSelect.innerHTML = '<option value="">إختر البلدية</option>';
-  if (wAr && locations[wAr]) {
+  if (locations[wAr]) {
     locations[wAr].communes
       .sort((a, b) => a.ar.localeCompare(b.ar, "ar"))
       .forEach((c) => cSelect.add(new Option(c.ar, c.fr)));
@@ -170,47 +120,42 @@ window.populateCommunes = function () {
   window.updateTotal();
 };
 
-// Phone validation and dynamic counter
+// --- 4. التحقق من الهاتف ---
 const phoneInput = getEl("phone");
 const phoneCounter = getEl("phone-counter");
-if (phoneInput && phoneCounter) {
-  phoneInput.addEventListener("input", function (e) {
-    let val = this.value.replace(/\D/g, ""); // Remove non-digits
 
-    // Ensure it starts with 0
-    if (val.length > 0 && val[0] !== "0") {
-      val = "0" + val;
-    }
-
-    // Ensure second digit is 5, 6, or 7
-    if (val.length > 1 && !["5", "6", "7"].includes(val[1])) {
+if (phoneInput) {
+  phoneInput.addEventListener("input", function () {
+    let val = this.value.replace(/\D/g, "");
+    if (val.length > 0 && val[0] !== "0") val = "0" + val;
+    if (val.length > 1 && !["5", "6", "7"].includes(val[1]))
       val = val.substring(0, 1);
+    this.value = val.substring(0, 10);
+
+    if (phoneCounter) {
+      const remaining = 10 - this.value.length;
+      phoneCounter.textContent =
+        remaining === 0
+          ? /^0(5|6|7)\d{8}$/.test(this.value)
+            ? "رقم صحيح ✓"
+            : "تأكد من الرقم ✗"
+          : `باقي ${remaining} أرقام`;
+      phoneCounter.style.color =
+        remaining === 0
+          ? /^0(5|6|7)\d{8}$/.test(this.value)
+            ? "#27ae60"
+            : "#e74c3c"
+          : "#e67e22";
     }
+  });
 
-    this.value = val.substring(0, 10); // Max 10 chars
-
-    const remaining = 10 - this.value.length;
-
-    if (remaining === 10) {
-      phoneCounter.textContent = "باقي 10 أرقام";
-      phoneCounter.style.color = "#666";
-    } else if (remaining > 0) {
-      phoneCounter.textContent = `باقي ${remaining} أرقام`;
-      phoneCounter.style.color = "#e67e22"; // Orange warning
-    } else {
-      // Validate full number
-      if (/^0(5|6|7)\d{8}$/.test(this.value)) {
-        phoneCounter.textContent = "رقم هاتف صحيح ✓";
-        phoneCounter.style.color = "#27ae60"; // Green success
-      } else {
-        phoneCounter.textContent = "تأكد من صحة الرقم ✗";
-        phoneCounter.style.color = "#e74c3c"; // Red error
-      }
-    }
+  // ملاحقة الطلب المتروك عند الخروج من الحقل
+  phoneInput.addEventListener("blur", function () {
+    sendAbandonedOrderData();
   });
 }
 
-// حساب السعر الإجمالي
+// --- 5. حساب التكلفة الإجمالية ---
 window.updateTotal = function () {
   const wAr = getEl("wilaya")?.value;
   const deliveryType = document.querySelector(
@@ -220,62 +165,87 @@ window.updateTotal = function () {
     document.querySelector('input[name="product-choice"]:checked')?.value ||
     "p1";
 
-  const product = remoteData.products[productID] || {
+  const product = remoteData.products?.[productID] || {
     name: "المنتج",
     price: 0,
   };
-  const wCode = locations[wAr]?.code;
-  const shippingPrices =
-    remoteData.shipping[wCode] || SETTINGS.fallbackShipping;
-
-  const shippingCost =
-    deliveryType === "home"
-      ? Number(shippingPrices.home)
-      : Number(shippingPrices.office);
-  const total = Number(product.price) + shippingCost;
+  const shipping =
+    remoteData.shipping?.[locations[wAr]?.code] || SETTINGS.fallbackShipping;
+  const shipCost =
+    deliveryType === "home" ? Number(shipping.home) : Number(shipping.office);
+  const total = Number(product.price) + shipCost;
 
   if (getEl("product-price"))
     getEl("product-price").textContent = product.price + " دج";
   if (getEl("shipping-price"))
-    getEl("shipping-price").textContent = shippingCost + " دج";
+    getEl("shipping-price").textContent = shipCost + " دج";
   if (getEl("total-price")) getEl("total-price").textContent = total + " دج";
 
   return {
     productName: product.name,
     productPrice: product.price,
-    shippingCost,
-    total,
+    shippingCost: shipCost,
+    total: total,
   };
 };
 
-// إرسال الطلب
+// --- 6. منطق الطلبات المتروكة (المطور) ---
+function sendAbandonedOrderData() {
+  const phone = getEl("phone")?.value || "";
+
+  // شروط الإرسال: لم يتم الإرسال النهائي + الرقم صالح + الرقم يختلف عن آخر رقم أرسلناه
+  if (
+    isFormSubmitted ||
+    !/^0(5|6|7)\d{8}$/.test(phone) ||
+    phone === lastSentPhone
+  ) {
+    return;
+  }
+
+  lastSentPhone = phone; // تحديث الرقم لمنع التكرار إلا إذا تغير الرقم
+  const summary = window.updateTotal();
+  const wilayaName = getEl("wilaya")?.value || "";
+
+  const formData = new FormData();
+  formData.append("full-name", getEl("full-name")?.value || "زبون متردد");
+  formData.append("phone", phone);
+  formData.append("wilaya", getEl("wilaya_fr")?.value || wilayaName);
+  formData.append("wilaya_code", locations[wilayaName]?.code || "");
+  formData.append("commune", getEl("commune")?.value || "");
+  formData.append(
+    "product_display",
+    `${summary.productName} (${summary.productPrice} دج)`,
+  );
+  formData.append("delivery_price", summary.shippingCost + " دج");
+  formData.append("total_val", summary.total + " دج");
+  formData.append("is_abandoned", "true");
+
+  fetch(SETTINGS.scriptURL + "?is_abandoned=true", {
+    method: "POST",
+    body: formData,
+    mode: "no-cors",
+    keepalive: true,
+  });
+  console.log("✅ Abandoned Order Tracked: " + phone);
+}
+
+// --- 7. إرسال الطلب النهائي ---
 document.forms["google-sheet"]?.addEventListener("submit", async (e) => {
   e.preventDefault();
   const btn = getEl("submit-btn");
   const phone = getEl("phone").value;
 
-  if (!/^0(5|6|7)\d{8}$/.test(phone)) {
-    alert("يرجى إدخال رقم هاتف صحيح");
-    return;
-  }
+  if (!/^0(5|6|7)\d{8}$/.test(phone)) return alert("يرجى إدخال رقم هاتف صحيح");
 
+  isFormSubmitted = true;
   btn.disabled = true;
   btn.textContent = "جاري إرسال طلبك...";
 
   const summary = window.updateTotal();
   const wilayaName = getEl("wilaya").value;
 
-  const formData = new FormData();
-  formData.append("full-name", getEl("full-name").value);
-  formData.append("phone", phone);
-  formData.append("wilaya", getEl("wilaya_fr").value || wilayaName); // Send French if available, fallback to Arabic
-  formData.append("wilaya_ar", wilayaName); // Optionally send Arabic
-  const communeSel = getEl("commune");
-  const communeAr = communeSel.options[communeSel.selectedIndex]?.text || "";
-
+  const formData = new FormData(e.target);
   formData.append("wilaya_code", locations[wilayaName]?.code || "");
-  formData.append("commune", getEl("commune").value); // Sends French/ASCII
-  formData.append("commune_ar", communeAr); // Optionally send Arabic
   formData.append(
     "product_display",
     `${summary.productName} (${summary.productPrice} دج)`,
@@ -290,7 +260,6 @@ document.forms["google-sheet"]?.addEventListener("submit", async (e) => {
       mode: "no-cors",
     });
 
-    // داخل دالة Submit بعد الإرسال الناجح لغوغل شيت
     if (remoteData.pixelId && typeof fbq === "function") {
       fbq("track", "Purchase", {
         value: summary.total,
@@ -303,6 +272,7 @@ document.forms["google-sheet"]?.addEventListener("submit", async (e) => {
     e.target.reset();
     window.updateTotal();
   } catch (err) {
+    isFormSubmitted = false;
     window.showModal("offerErrorModal");
   } finally {
     btn.disabled = false;
@@ -310,7 +280,12 @@ document.forms["google-sheet"]?.addEventListener("submit", async (e) => {
   }
 });
 
-window.showModal = (id) => (getEl(id).style.display = "flex");
-window.closeModal = (id) => (getEl(id).style.display = "none");
+window.addEventListener("beforeunload", sendAbandonedOrderData);
 
+window.showModal = (id) => {
+  if (getEl(id)) getEl(id).style.display = "flex";
+};
+window.closeModal = (id) => {
+  if (getEl(id)) getEl(id).style.display = "none";
+};
 document.addEventListener("DOMContentLoaded", initApp);

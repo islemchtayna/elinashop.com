@@ -1,4 +1,4 @@
-const algeriaData = [
+var algeriaData = [
   {
     id: 22,
     commune_name_ascii: "Timekten",
@@ -12329,66 +12329,78 @@ const algeriaData = [
   },
 ];
 
-let upBtn = document.querySelector(".up");
-let whatsappBtn = document.querySelector(".whatsapp-fab");
+var upBtn = document.querySelector(".up");
+var whatsappBtn = document.querySelector(".whatsapp-fab");
 
 window.onscroll = function () {
-  if (this.scrollY >= 300) {
-    upBtn.classList.add("show");
-    whatsappBtn.classList.add("show");
+  if (window.scrollY >= 300) {
+    if (upBtn) upBtn.classList.add("show");
+    if (whatsappBtn) whatsappBtn.classList.add("show");
   } else {
-    upBtn.classList.remove("show");
-    whatsappBtn.classList.remove("show");
+    if (upBtn) upBtn.classList.remove("show");
+    if (whatsappBtn) whatsappBtn.classList.remove("show");
   }
 };
 
-upBtn.onclick = function () {
-  window.scrollTo({
-    top: 0,
-    behavior: "smooth",
-  });
-};
+if (upBtn) {
+  upBtn.onclick = function () {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  };
+}
 
-whatsappBtn.onclick = function () {
-  window.open(
-    "https://wa.me/+213696763017?text=Hello%20I%20want%20to%20inquire%20about%20your%20products",
-    "_blank",
-  );
-};
+if (whatsappBtn) {
+  whatsappBtn.onclick = function () {
+    window.open(
+      "https://wa.me/+213696763017?text=Hello%20I%20want%20to%20inquire%20about%20your%20products",
+      "_blank",
+    );
+  };
+}
 
-const SETTINGS = {
+var SETTINGS = {
   scriptURL: "https://my-api-973213827547.europe-west1.run.app/",
   pixelId: "1641197603984423",
   fallbackShipping: { office: 600, home: 800 },
 };
 
-let locations = {};
-if (typeof algeriaData !== "undefined" && Array.isArray(algeriaData)) {
-  algeriaData.forEach(function (item) {
-    // تعديل لحماية المتصفحات القديمة
-    const wAr = item.wilaya_name ? item.wilaya_name.trim() : "";
+var locations = {};
+// تحويل الكود ليصبح متوافقاً مع ES5 100%
+if (
+  typeof algeriaData !== "undefined" &&
+  Object.prototype.toString.call(algeriaData) === "[object Array]"
+) {
+  for (var i = 0; i < algeriaData.length; i++) {
+    var item = algeriaData[i];
+    var wAr = item.wilaya_name
+      ? item.wilaya_name.replace(/^\s+|\s+$/g, "")
+      : ""; // طريقة قديمة وآمنة للـ trim
     if (wAr) {
       if (!locations[wAr]) {
+        var codeStr = (item.wilaya_code || "00").toString();
+        if (codeStr.length === 1) codeStr = "0" + codeStr; // بديل آمن لـ padStart
         locations[wAr] = {
           name_fr: item.wilaya_name_ascii || item.wilaya_name_fr || wAr,
-          code: (item.wilaya_code || "00").toString().padStart(2, "0"),
+          code: codeStr,
           communes: [],
         };
       }
       if (item.commune_name) {
         locations[wAr].communes.push({
-          ar: item.commune_name.trim(),
+          ar: item.commune_name.replace(/^\s+|\s+$/g, ""),
           fr: item.commune_name_ascii || item.commune_name,
         });
       }
     }
-  });
+  }
 }
 
-let remoteData = { shipping: {}, products: {}, locations: [] };
-let isFormSubmitted = false;
-let lastSentPhone = "";
-const getEl = function (id) {
+var remoteData = { shipping: {}, products: {}, locations: [] };
+var isFormSubmitted = false;
+var lastSentPhone = "";
+var getEl = function (id) {
   return document.getElementById(id);
 };
 
@@ -12407,117 +12419,141 @@ function insertFacebookPixel(id) {
     t.async = !0;
     t.src = v;
     s = b.getElementsByTagName(e)[0];
-    s.parentNode.insertBefore(t, s);
+    if (s && s.parentNode) s.parentNode.insertBefore(t, s);
   })(
     window,
     document,
     "script",
     "https://connect.facebook.net/en_US/fbevents.js",
   );
-  fbq("init", id);
-  fbq("track", "PageView");
+  if (typeof fbq === "function") {
+    fbq("init", id);
+    fbq("track", "PageView");
+  }
 }
 
-async function initApp() {
+function initApp() {
   renderWilayas();
 
   if (SETTINGS.pixelId) {
     insertFacebookPixel(SETTINGS.pixelId);
   }
 
-  try {
-    const response = await fetch(
-      SETTINGS.scriptURL + "api/config?t=" + Date.now(),
-    );
-    if (!response.ok) throw new Error("Network response was not ok");
-    remoteData = await response.json();
+  // استخدام XMLHttpRequest بدلاً من fetch لضمان العمل على أقدم المتصفحات
+  var xhr = new XMLHttpRequest();
+  xhr.open(
+    "GET",
+    SETTINGS.scriptURL + "api/config?t=" + new Date().getTime(),
+    true,
+  );
+  xhr.onreadystatechange = function () {
+    if (xhr.readyState === 4) {
+      if (xhr.status === 200) {
+        try {
+          remoteData = JSON.parse(xhr.responseText);
+          var inputs = document.querySelectorAll(
+            'input[name="product-choice"]',
+          );
+          for (var j = 0; j < inputs.length; j++) {
+            var inputEl = inputs[j];
+            var pId = inputEl.value;
+            var pData = remoteData.products ? remoteData.products[pId] : null;
+            var containerEl = getEl(pId + "-container");
 
-    document
-      .querySelectorAll('input[name="product-choice"]')
-      .forEach(function (inputEl) {
-        const pId = inputEl.value;
-        // حماية المتصفحات القديمة من الكراش هنا
-        const pData = remoteData.products ? remoteData.products[pId] : null;
-        const containerEl = getEl(pId + "-container");
-
-        if (pData && pData.name && pData.name.trim() !== "") {
-          if (getEl(pId + "-name"))
-            getEl(pId + "-name").textContent = pData.name;
-          if (getEl(pId + "-price"))
-            getEl(pId + "-price").textContent = pData.price + " دج";
-          if (containerEl) containerEl.style.display = "flex";
-          inputEl.disabled = false;
-        } else {
-          if (containerEl) containerEl.style.display = "none";
-          inputEl.disabled = true;
+            if (
+              pData &&
+              pData.name &&
+              pData.name.replace(/^\s+|\s+$/g, "") !== ""
+            ) {
+              if (getEl(pId + "-name"))
+                getEl(pId + "-name").textContent = pData.name;
+              if (getEl(pId + "-price"))
+                getEl(pId + "-price").textContent = pData.price + " دج";
+              if (containerEl) containerEl.style.display = "flex";
+              inputEl.disabled = false;
+            } else {
+              if (containerEl) containerEl.style.display = "none";
+              inputEl.disabled = true;
+            }
+          }
+          window.updateTotal();
+        } catch (error) {
+          console.error("⚠️ خطأ في جلب البيانات");
         }
-      });
-    window.updateTotal();
-  } catch (error) {
-    console.error("⚠️ خطأ في جلب البيانات:", error);
-  }
+      }
+    }
+  };
+  xhr.send();
 }
 
 function renderWilayas() {
-  const wSelect = getEl("wilaya");
+  var wSelect = getEl("wilaya");
   if (!wSelect) return;
   wSelect.dir = "rtl";
   wSelect.innerHTML = '<option value="">إختر الولاية</option>';
 
-  const sortedWilayas = Object.keys(locations).sort(function (a, b) {
+  var wilayaKeys = [];
+  for (var key in locations) {
+    if (locations.hasOwnProperty(key)) wilayaKeys.push(key);
+  }
+
+  wilayaKeys.sort(function (a, b) {
     return parseInt(locations[a].code) - parseInt(locations[b].code);
   });
 
-  sortedWilayas.forEach(function (w) {
-    const displayText = locations[w].code + " - " + w;
+  for (var k = 0; k < wilayaKeys.length; k++) {
+    var w = wilayaKeys[k];
+    var displayText = locations[w].code + " - " + w;
     wSelect.add(new Option(displayText, w));
-  });
+  }
 }
 
 window.populateCommunes = function () {
-  const wSelect = getEl("wilaya");
-  const wAr = wSelect ? wSelect.value : "";
+  var wSelect = getEl("wilaya");
+  var wAr = wSelect ? wSelect.value : "";
   if (getEl("wilaya_fr")) {
     getEl("wilaya_fr").value = locations[wAr] ? locations[wAr].name_fr : "";
   }
-  const cSelect = getEl("commune");
+  var cSelect = getEl("commune");
   if (!cSelect) return;
   cSelect.innerHTML = '<option value="">إختر البلدية</option>';
-  if (locations[wAr]) {
-    locations[wAr].communes
-      .sort(function (a, b) {
-        return a.ar.localeCompare(b.ar, "ar");
-      })
-      .forEach(function (c) {
-        cSelect.add(new Option(c.ar, c.fr));
-      });
+  if (locations[wAr] && locations[wAr].communes) {
+    var comms = locations[wAr].communes.slice();
+    comms.sort(function (a, b) {
+      return a.ar.localeCompare(b.ar, "ar");
+    });
+    for (var m = 0; m < comms.length; m++) {
+      cSelect.add(new Option(comms[m].ar, comms[m].fr));
+    }
   }
   window.updateTotal();
 };
 
-const phoneInput = getEl("phone");
-const phoneCounter = getEl("phone-counter");
+var phoneInput = getEl("phone");
+var phoneCounter = getEl("phone-counter");
 if (phoneInput) {
   phoneInput.addEventListener("input", function () {
-    let val = this.value.replace(/\D/g, "");
+    var val = this.value.replace(/\D/g, "");
     if (val.length > 0 && val[0] !== "0") val = "0" + val;
-    if (val.length > 1 && !["5", "6", "7"].includes(val[1]))
+    // بديل آمن لـ includes
+    if (
+      val.length > 1 &&
+      !(val[1] === "5" || val[1] === "6" || val[1] === "7")
+    ) {
       val = val.substring(0, 1);
+    }
     this.value = val.substring(0, 10);
     if (phoneCounter) {
-      const remaining = 10 - this.value.length;
+      var remaining = 10 - this.value.length;
+      var isValid = /^0(5|6|7)\d{8}$/.test(this.value);
       phoneCounter.textContent =
         remaining === 0
-          ? /^0(5|6|7)\d{8}$/.test(this.value)
+          ? isValid
             ? "رقم صحيح ✓"
             : "تأكد من الرقم ✗"
           : "باقي " + remaining + " أرقام";
       phoneCounter.style.color =
-        remaining === 0
-          ? /^0(5|6|7)\d{8}$/.test(this.value)
-            ? "#27ae60"
-            : "#e74c3c"
-          : "#e67e22";
+        remaining === 0 ? (isValid ? "#27ae60" : "#e74c3c") : "#e67e22";
     }
   });
   phoneInput.addEventListener("blur", function () {
@@ -12526,31 +12562,36 @@ if (phoneInput) {
 }
 
 window.updateTotal = function () {
-  const wSelect = getEl("wilaya");
-  const wAr = wSelect ? wSelect.value : "";
+  var wSelect = getEl("wilaya");
+  var wAr = wSelect ? wSelect.value : "";
 
-  const deliveryNode = document.querySelector('input[name="delivery"]:checked');
-  const deliveryType = deliveryNode ? deliveryNode.value : null;
+  // طريقة آمنة لجلب الخيارات المحددة
+  var deliveryType = null;
+  var deliveryInputs = document.getElementsByName("delivery");
+  for (var x = 0; x < deliveryInputs.length; x++) {
+    if (deliveryInputs[x].checked) deliveryType = deliveryInputs[x].value;
+  }
 
-  const productNode = document.querySelector(
-    'input[name="product-choice"]:checked',
-  );
-  const productID = productNode ? productNode.value : "p1";
+  var productID = "p1";
+  var productInputs = document.getElementsByName("product-choice");
+  for (var y = 0; y < productInputs.length; y++) {
+    if (productInputs[y].checked) productID = productInputs[y].value;
+  }
 
-  const product =
+  var product =
     remoteData.products && remoteData.products[productID]
       ? remoteData.products[productID]
       : { name: "المنتج", price: 0 };
 
-  const wCode = locations[wAr] ? locations[wAr].code : null;
-  const shipping =
+  var wCode = locations[wAr] ? locations[wAr].code : null;
+  var shipping =
     remoteData.shipping && remoteData.shipping[wCode]
       ? remoteData.shipping[wCode]
       : SETTINGS.fallbackShipping;
 
-  const shipCost =
+  var shipCost =
     deliveryType === "home" ? Number(shipping.home) : Number(shipping.office);
-  const total = Number(product.price) + shipCost;
+  var total = Number(product.price) + shipCost;
 
   if (getEl("product-price"))
     getEl("product-price").textContent = product.price + " دج";
@@ -12566,9 +12607,9 @@ window.updateTotal = function () {
   };
 };
 
-async function sendAbandonedOrderData() {
-  const phoneNode = getEl("phone");
-  const phone = phoneNode ? phoneNode.value : "";
+function sendAbandonedOrderData() {
+  var phoneNode = getEl("phone");
+  var phone = phoneNode ? phoneNode.value : "";
   if (
     isFormSubmitted ||
     !/^0(5|6|7)\d{8}$/.test(phone) ||
@@ -12577,12 +12618,12 @@ async function sendAbandonedOrderData() {
     return;
   }
   lastSentPhone = phone;
-  const summary = window.updateTotal();
-  const wSelect = getEl("wilaya");
-  const wilayaName = wSelect ? wSelect.value : "";
-  const cSelect = getEl("commune");
+  var summary = window.updateTotal();
+  var wSelect = getEl("wilaya");
+  var wilayaName = wSelect ? wSelect.value : "";
+  var cSelect = getEl("commune");
 
-  const orderData = {
+  var orderData = {
     "full-name": getEl("full-name") ? getEl("full-name").value : "زبون متردد",
     phone: phone,
     wilaya: locations[wilayaName] ? locations[wilayaName].name_fr : wilayaName,
@@ -12594,38 +12635,33 @@ async function sendAbandonedOrderData() {
     is_abandoned: "true",
   };
 
-  try {
-    await fetch(SETTINGS.scriptURL + "api/order", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(orderData),
-      keepalive: true,
-    });
-    console.log("✅ Abandoned Order Tracked: " + phone);
-  } catch (e) {
-    console.error("Error tracking abandoned order");
-  }
+  var xhr = new XMLHttpRequest();
+  xhr.open("POST", SETTINGS.scriptURL + "api/order", true);
+  xhr.setRequestHeader("Content-Type", "application/json");
+  xhr.send(JSON.stringify(orderData));
 }
 
-const formElement = document.forms["google-sheet"];
+var formElement = document.forms["google-sheet"];
 if (formElement) {
-  formElement.addEventListener("submit", async function (e) {
+  formElement.addEventListener("submit", function (e) {
     e.preventDefault();
-    const btn = getEl("submit-btn");
-    const phone = getEl("phone").value;
+    var btn = getEl("submit-btn");
+    var phone = getEl("phone").value;
     if (!/^0(5|6|7)\d{8}$/.test(phone))
       return alert("يرجى إدخال رقم هاتف صحيح");
 
     isFormSubmitted = true;
-    btn.disabled = true;
-    btn.textContent = "جاري إرسال طلبك...";
+    if (btn) {
+      btn.disabled = true;
+      btn.textContent = "جاري إرسال طلبك...";
+    }
 
-    const summary = window.updateTotal();
-    const wSelect = getEl("wilaya");
-    const wilayaName = wSelect ? wSelect.value : "";
-    const cSelect = getEl("commune");
+    var summary = window.updateTotal();
+    var wSelect = getEl("wilaya");
+    var wilayaName = wSelect ? wSelect.value : "";
+    var cSelect = getEl("commune");
 
-    const orderData = {
+    var orderData = {
       "full-name": getEl("full-name") ? getEl("full-name").value : "زبون مجهول",
       phone: phone,
       wilaya: locations[wilayaName]
@@ -12640,38 +12676,50 @@ if (formElement) {
       is_abandoned: "false",
     };
 
-    try {
-      await fetch(SETTINGS.scriptURL + "api/order", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(orderData),
-      });
+    var xhr = new XMLHttpRequest();
+    xhr.open("POST", SETTINGS.scriptURL + "api/order", true);
+    xhr.setRequestHeader("Content-Type", "application/json");
 
-      if (SETTINGS.pixelId && typeof fbq === "function") {
-        fbq("track", "Purchase", {
-          value: summary.total,
-          currency: "DZD",
-          content_name: summary.productName,
-        });
+    xhr.onreadystatechange = function () {
+      if (xhr.readyState === 4) {
+        if (btn) {
+          btn.disabled = false;
+          btn.textContent = "إرسال الطلب";
+        }
+        if (xhr.status === 200) {
+          if (SETTINGS.pixelId && typeof fbq === "function") {
+            fbq("track", "Purchase", {
+              value: summary.total,
+              currency: "DZD",
+              content_name: summary.productName,
+            });
+          }
+          window.showModal("successModal");
+          formElement.reset();
+          window.updateTotal();
+        } else {
+          isFormSubmitted = false;
+          window.showModal("offerErrorModal");
+        }
       }
-      window.showModal("successModal");
-      e.target.reset();
-      window.updateTotal();
-    } catch (err) {
-      isFormSubmitted = false;
-      window.showModal("offerErrorModal");
-    } finally {
-      btn.disabled = false;
-      btn.textContent = "إرسال الطلب";
-    }
+    };
+    xhr.send(JSON.stringify(orderData));
   });
 }
 
-window.addEventListener("beforeunload", sendAbandonedOrderData);
+// حماية المتصفحات القديمة من خطأ beforeunload
+if (window.addEventListener) {
+  window.addEventListener("beforeunload", sendAbandonedOrderData);
+  document.addEventListener("DOMContentLoaded", initApp);
+} else if (window.attachEvent) {
+  // For Internet Explorer 8 and older
+  window.attachEvent("onbeforeunload", sendAbandonedOrderData);
+  window.attachEvent("onload", initApp);
+}
+
 window.showModal = function (id) {
   if (getEl(id)) getEl(id).style.display = "flex";
 };
 window.closeModal = function (id) {
   if (getEl(id)) getEl(id).style.display = "none";
 };
-document.addEventListener("DOMContentLoaded", initApp);

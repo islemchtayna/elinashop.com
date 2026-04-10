@@ -12357,7 +12357,6 @@ whatsappBtn.onclick = function () {
 };
 
 const SETTINGS = {
-  // الرابط الأساسي للسيرفر بدون سلاش في النهاية
   scriptURL: "https://my-api-973213827547.europe-west1.run.app/",
   pixelId: "1641197603984423",
   fallbackShipping: { office: 600, home: 800 },
@@ -12365,8 +12364,9 @@ const SETTINGS = {
 
 let locations = {};
 if (typeof algeriaData !== "undefined" && Array.isArray(algeriaData)) {
-  algeriaData.forEach((item) => {
-    const wAr = item.wilaya_name?.trim();
+  algeriaData.forEach(function (item) {
+    // تعديل لحماية المتصفحات القديمة
+    const wAr = item.wilaya_name ? item.wilaya_name.trim() : "";
     if (wAr) {
       if (!locations[wAr]) {
         locations[wAr] = {
@@ -12388,7 +12388,9 @@ if (typeof algeriaData !== "undefined" && Array.isArray(algeriaData)) {
 let remoteData = { shipping: {}, products: {}, locations: [] };
 let isFormSubmitted = false;
 let lastSentPhone = "";
-const getEl = (id) => document.getElementById(id);
+const getEl = function (id) {
+  return document.getElementById(id);
+};
 
 function insertFacebookPixel(id) {
   !(function (f, b, e, v, n, t, s) {
@@ -12424,24 +12426,25 @@ async function initApp() {
   }
 
   try {
-    // الاتصال بالمسار الصحيح لجلب الإعدادات
     const response = await fetch(
-      `${SETTINGS.scriptURL}/api/config?t=${Date.now()}`,
+      SETTINGS.scriptURL + "api/config?t=" + Date.now(),
     );
     if (!response.ok) throw new Error("Network response was not ok");
     remoteData = await response.json();
 
     document
       .querySelectorAll('input[name="product-choice"]')
-      .forEach((inputEl) => {
+      .forEach(function (inputEl) {
         const pId = inputEl.value;
-        const pData = remoteData.products?.[pId];
-        const containerEl = getEl(`${pId}-container`);
+        // حماية المتصفحات القديمة من الكراش هنا
+        const pData = remoteData.products ? remoteData.products[pId] : null;
+        const containerEl = getEl(pId + "-container");
+
         if (pData && pData.name && pData.name.trim() !== "") {
-          if (getEl(`${pId}-name`))
-            getEl(`${pId}-name`).textContent = pData.name;
-          if (getEl(`${pId}-price`))
-            getEl(`${pId}-price`).textContent = pData.price + " دج";
+          if (getEl(pId + "-name"))
+            getEl(pId + "-name").textContent = pData.name;
+          if (getEl(pId + "-price"))
+            getEl(pId + "-price").textContent = pData.price + " دج";
           if (containerEl) containerEl.style.display = "flex";
           inputEl.disabled = false;
         } else {
@@ -12461,49 +12464,36 @@ function renderWilayas() {
   wSelect.dir = "rtl";
   wSelect.innerHTML = '<option value="">إختر الولاية</option>';
 
-  // استخراج الولايات وترتيبها حسب رقم الولاية (من 1 إلى 58)
-  const sortedWilayas = Object.keys(locations).sort((a, b) => {
+  const sortedWilayas = Object.keys(locations).sort(function (a, b) {
     return parseInt(locations[a].code) - parseInt(locations[b].code);
   });
 
-  sortedWilayas.forEach((w) => {
-    // دمج رقم الولاية مع اسمها لتظهر هكذا: "16 - الجزائر"
-    const displayText = `${locations[w].code} - ${w}`;
-
-    // ملاحظة: نغير شكل العرض فقط، ونحتفظ بالاسم كقيمة (value) كي لا يتعطل باقي الكود
+  sortedWilayas.forEach(function (w) {
+    const displayText = locations[w].code + " - " + w;
     wSelect.add(new Option(displayText, w));
   });
 }
 
 window.populateCommunes = function () {
-  const wAr = getEl("wilaya").value;
-  if (getEl("wilaya_fr"))
-    getEl("wilaya_fr").value = locations[wAr]?.name_fr || "";
+  const wSelect = getEl("wilaya");
+  const wAr = wSelect ? wSelect.value : "";
+  if (getEl("wilaya_fr")) {
+    getEl("wilaya_fr").value = locations[wAr] ? locations[wAr].name_fr : "";
+  }
   const cSelect = getEl("commune");
   if (!cSelect) return;
   cSelect.innerHTML = '<option value="">إختر البلدية</option>';
   if (locations[wAr]) {
     locations[wAr].communes
-      .sort((a, b) => a.ar.localeCompare(b.ar, "ar"))
-      .forEach((c) => cSelect.add(new Option(c.ar, c.fr)));
+      .sort(function (a, b) {
+        return a.ar.localeCompare(b.ar, "ar");
+      })
+      .forEach(function (c) {
+        cSelect.add(new Option(c.ar, c.fr));
+      });
   }
   window.updateTotal();
 };
-
-const nameInput = getEl("full-name");
-const NAME_PATTERN = /^[A-Za-z\u0600-\u06FF\s]+$/;
-
-if (nameInput) {
-  nameInput.addEventListener("input", function () {
-    const cleaned = this.value.replace(/[^A-Za-z\u0600-\u06FF\s]/g, "");
-    if (cleaned !== this.value) {
-      this.value = cleaned;
-    }
-  });
-  nameInput.addEventListener("blur", function () {
-    sendAbandonedOrderData();
-  });
-}
 
 const phoneInput = getEl("phone");
 const phoneCounter = getEl("phone-counter");
@@ -12521,7 +12511,7 @@ if (phoneInput) {
           ? /^0(5|6|7)\d{8}$/.test(this.value)
             ? "رقم صحيح ✓"
             : "تأكد من الرقم ✗"
-          : `باقي ${remaining} أرقام`;
+          : "باقي " + remaining + " أرقام";
       phoneCounter.style.color =
         remaining === 0
           ? /^0(5|6|7)\d{8}$/.test(this.value)
@@ -12536,19 +12526,28 @@ if (phoneInput) {
 }
 
 window.updateTotal = function () {
-  const wAr = getEl("wilaya")?.value;
-  const deliveryType = document.querySelector(
-    'input[name="delivery"]:checked',
-  )?.value;
-  const productID =
-    document.querySelector('input[name="product-choice"]:checked')?.value ||
-    "p1";
-  const product = remoteData.products?.[productID] || {
-    name: "المنتج",
-    price: 0,
-  };
+  const wSelect = getEl("wilaya");
+  const wAr = wSelect ? wSelect.value : "";
+
+  const deliveryNode = document.querySelector('input[name="delivery"]:checked');
+  const deliveryType = deliveryNode ? deliveryNode.value : null;
+
+  const productNode = document.querySelector(
+    'input[name="product-choice"]:checked',
+  );
+  const productID = productNode ? productNode.value : "p1";
+
+  const product =
+    remoteData.products && remoteData.products[productID]
+      ? remoteData.products[productID]
+      : { name: "المنتج", price: 0 };
+
+  const wCode = locations[wAr] ? locations[wAr].code : null;
   const shipping =
-    remoteData.shipping?.[locations[wAr]?.code] || SETTINGS.fallbackShipping;
+    remoteData.shipping && remoteData.shipping[wCode]
+      ? remoteData.shipping[wCode]
+      : SETTINGS.fallbackShipping;
+
   const shipCost =
     deliveryType === "home" ? Number(shipping.home) : Number(shipping.office);
   const total = Number(product.price) + shipCost;
@@ -12568,7 +12567,8 @@ window.updateTotal = function () {
 };
 
 async function sendAbandonedOrderData() {
-  const phone = getEl("phone")?.value || "";
+  const phoneNode = getEl("phone");
+  const phone = phoneNode ? phoneNode.value : "";
   if (
     isFormSubmitted ||
     !/^0(5|6|7)\d{8}$/.test(phone) ||
@@ -12578,25 +12578,24 @@ async function sendAbandonedOrderData() {
   }
   lastSentPhone = phone;
   const summary = window.updateTotal();
-  const wilayaName = getEl("wilaya")?.value || "";
-
-  const rawName = getEl("full-name")?.value.trim() || "";
-  const validName = NAME_PATTERN.test(rawName) ? rawName : "زبون متردد";
+  const wSelect = getEl("wilaya");
+  const wilayaName = wSelect ? wSelect.value : "";
+  const cSelect = getEl("commune");
 
   const orderData = {
-    "full-name": validName,
+    "full-name": getEl("full-name") ? getEl("full-name").value : "زبون متردد",
     phone: phone,
-    wilaya: locations[wilayaName]?.name_fr || wilayaName,
-    wilaya_code: locations[wilayaName]?.code || "",
-    commune: getEl("commune")?.value || "",
-    product_display: `${summary.productName} (${summary.productPrice} دج)`,
+    wilaya: locations[wilayaName] ? locations[wilayaName].name_fr : wilayaName,
+    wilaya_code: locations[wilayaName] ? locations[wilayaName].code : "",
+    commune: cSelect ? cSelect.value : "",
+    product_display: summary.productName + " (" + summary.productPrice + " دج)",
     delivery_price: summary.shippingCost + " دج",
     total_val: summary.total + " دج",
     is_abandoned: "true",
   };
 
   try {
-    await fetch(`${SETTINGS.scriptURL}/api/order`, {
+    await fetch(SETTINGS.scriptURL + "api/order", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(orderData),
@@ -12608,68 +12607,71 @@ async function sendAbandonedOrderData() {
   }
 }
 
-document.forms["google-sheet"]?.addEventListener("submit", async (e) => {
-  e.preventDefault();
-  const btn = getEl("submit-btn");
-  const phone = getEl("phone").value;
-  if (!/^0(5|6|7)\d{8}$/.test(phone)) return alert("يرجى إدخال رقم هاتف صحيح");
+const formElement = document.forms["google-sheet"];
+if (formElement) {
+  formElement.addEventListener("submit", async function (e) {
+    e.preventDefault();
+    const btn = getEl("submit-btn");
+    const phone = getEl("phone").value;
+    if (!/^0(5|6|7)\d{8}$/.test(phone))
+      return alert("يرجى إدخال رقم هاتف صحيح");
 
-  const rawName = getEl("full-name")?.value.trim() || "";
-  if (!NAME_PATTERN.test(rawName))
-    return alert("يرجى إدخال الاسم باستخدام حروف فقط.");
+    isFormSubmitted = true;
+    btn.disabled = true;
+    btn.textContent = "جاري إرسال طلبك...";
 
-  const validName = rawName || "زبون مجهول";
+    const summary = window.updateTotal();
+    const wSelect = getEl("wilaya");
+    const wilayaName = wSelect ? wSelect.value : "";
+    const cSelect = getEl("commune");
 
-  isFormSubmitted = true;
-  btn.disabled = true;
-  btn.textContent = "جاري إرسال طلبك...";
+    const orderData = {
+      "full-name": getEl("full-name") ? getEl("full-name").value : "زبون مجهول",
+      phone: phone,
+      wilaya: locations[wilayaName]
+        ? locations[wilayaName].name_fr
+        : wilayaName,
+      wilaya_code: locations[wilayaName] ? locations[wilayaName].code : "",
+      commune: cSelect ? cSelect.value : "",
+      product_display:
+        summary.productName + " (" + summary.productPrice + " دج)",
+      delivery_price: summary.shippingCost + " دج",
+      total_val: summary.total + " دج",
+      is_abandoned: "false",
+    };
 
-  const summary = window.updateTotal();
-  const wilayaName = getEl("wilaya").value;
-
-  const orderData = {
-    "full-name": getEl("full-name")?.value || "زبون مجهول",
-    phone: phone,
-    wilaya: locations[wilayaName]?.name_fr || wilayaName,
-    wilaya_code: locations[wilayaName]?.code || "",
-    commune: getEl("commune")?.value || "",
-    product_display: `${summary.productName} (${summary.productPrice} دج)`,
-    delivery_price: summary.shippingCost + " دج",
-    total_val: summary.total + " دج",
-    is_abandoned: "false",
-  };
-
-  try {
-    await fetch(`${SETTINGS.scriptURL}/api/order`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(orderData),
-    });
-
-    if (SETTINGS.pixelId && typeof fbq === "function") {
-      fbq("track", "Purchase", {
-        value: summary.total,
-        currency: "DZD",
-        content_name: summary.productName,
+    try {
+      await fetch(SETTINGS.scriptURL + "api/order", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(orderData),
       });
+
+      if (SETTINGS.pixelId && typeof fbq === "function") {
+        fbq("track", "Purchase", {
+          value: summary.total,
+          currency: "DZD",
+          content_name: summary.productName,
+        });
+      }
+      window.showModal("successModal");
+      e.target.reset();
+      window.updateTotal();
+    } catch (err) {
+      isFormSubmitted = false;
+      window.showModal("offerErrorModal");
+    } finally {
+      btn.disabled = false;
+      btn.textContent = "إرسال الطلب";
     }
-    window.showModal("successModal");
-    e.target.reset();
-    window.updateTotal();
-  } catch (err) {
-    isFormSubmitted = false;
-    window.showModal("offerErrorModal");
-  } finally {
-    btn.disabled = false;
-    btn.textContent = "إرسال الطلب";
-  }
-});
+  });
+}
 
 window.addEventListener("beforeunload", sendAbandonedOrderData);
-window.showModal = (id) => {
+window.showModal = function (id) {
   if (getEl(id)) getEl(id).style.display = "flex";
 };
-window.closeModal = (id) => {
+window.closeModal = function (id) {
   if (getEl(id)) getEl(id).style.display = "none";
 };
 document.addEventListener("DOMContentLoaded", initApp);

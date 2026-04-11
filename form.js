@@ -12545,7 +12545,12 @@ window.populateCommunes = function () {
   if (locations[wAr] && locations[wAr].communes) {
     var comms = locations[wAr].communes.slice();
     comms.sort(function (a, b) {
-      return a.ar.localeCompare(b.ar, "ar");
+      // ES5 compatible string comparison
+      var aStr = a.ar.toLowerCase();
+      var bStr = b.ar.toLowerCase();
+      if (aStr < bStr) return -1;
+      if (aStr > bStr) return 1;
+      return 0;
     });
     for (var m = 0; m < comms.length; m++) {
       var option = document.createElement("option");

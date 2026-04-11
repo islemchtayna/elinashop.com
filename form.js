@@ -12490,7 +12490,17 @@ function renderWilayas() {
   var wSelect = getEl("wilaya");
   if (!wSelect) return;
   wSelect.dir = "rtl";
-  wSelect.innerHTML = '<option value="">إختر الولاية</option>';
+
+  // Clear existing options
+  while (wSelect.firstChild) {
+    wSelect.removeChild(wSelect.firstChild);
+  }
+
+  // Add default option (compatible with old browsers)
+  var defaultOption = document.createElement("option");
+  defaultOption.value = "";
+  defaultOption.textContent = "إختر الولاية";
+  wSelect.appendChild(defaultOption);
 
   var wilayaKeys = [];
   for (var key in locations) {
@@ -12501,10 +12511,14 @@ function renderWilayas() {
     return parseInt(locations[a].code) - parseInt(locations[b].code);
   });
 
+  // Add wilaya options (compatible with very old browsers)
   for (var k = 0; k < wilayaKeys.length; k++) {
     var w = wilayaKeys[k];
     var displayText = locations[w].code + " - " + w;
-    wSelect.add(new Option(displayText, w));
+    var option = document.createElement("option");
+    option.value = w;
+    option.textContent = displayText;
+    wSelect.appendChild(option);
   }
 }
 
@@ -12516,14 +12530,28 @@ window.populateCommunes = function () {
   }
   var cSelect = getEl("commune");
   if (!cSelect) return;
-  cSelect.innerHTML = '<option value="">إختر البلدية</option>';
+
+  // Clear existing options (old browser compatible)
+  while (cSelect.firstChild) {
+    cSelect.removeChild(cSelect.firstChild);
+  }
+
+  // Add default option
+  var defaultOption = document.createElement("option");
+  defaultOption.value = "";
+  defaultOption.textContent = "إختر البلدية";
+  cSelect.appendChild(defaultOption);
+
   if (locations[wAr] && locations[wAr].communes) {
     var comms = locations[wAr].communes.slice();
     comms.sort(function (a, b) {
       return a.ar.localeCompare(b.ar, "ar");
     });
     for (var m = 0; m < comms.length; m++) {
-      cSelect.add(new Option(comms[m].ar, comms[m].fr));
+      var option = document.createElement("option");
+      option.value = comms[m].fr;
+      option.textContent = comms[m].ar;
+      cSelect.appendChild(option);
     }
   }
   window.updateTotal();

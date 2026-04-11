@@ -1190,7 +1190,7 @@ footer span:hover {
   justify-content: space-between;
   width: 100%;
   align-items: center;
-  display: none;
+  /* Removed display: none to show prices on old browsers */
 }
 
 .p-name {
@@ -1205,7 +1205,22 @@ footer span:hover {
 .product-card input[type="radio"] {
   width: 20px;
   height: 20px;
-  accent-color: var(--primary-color);
+  /* accent-color removed for old browser support */
+  accent-color: #ff4081;
+}
+
+/* Fallback for browsers without accent-color support */
+@supports not (accent-color: red) {
+  .product-card input[type="radio"] {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    border: 2px solid #ff4081;
+    border-radius: 50%;
+    background: white;
+    cursor: pointer;
+  }
 }
 
 .shipping-methods {
@@ -1228,7 +1243,8 @@ footer span:hover {
 .shipping-methods input[type="radio"] {
   width: 20px;
   height: 20px;
-  accent-color: var(--primary-color);
+  /* accent-color removed for old browser support */
+  accent-color: #ff4081;
 }
 .shipping-option:has(input:checked) {
   border-color: var(--primary-color);
